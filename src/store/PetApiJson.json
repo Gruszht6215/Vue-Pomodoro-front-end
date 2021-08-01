@@ -1,0 +1,188 @@
+[
+    {
+        "id": 1,
+        "pet_name": "bear",
+        "pet_rarity": "Common",
+        "pet_point": 20,
+        "published_at": "2021-08-01T19:15:01.641Z",
+        "created_at": "2021-08-01T19:14:57.279Z",
+        "updated_at": "2021-08-01T19:15:01.651Z",
+        "pet_image": {
+            "id": 5,
+            "name": "bear.png",
+            "alternativeText": "",
+            "caption": "",
+            "width": 900,
+            "height": 859,
+            "formats": {
+                "thumbnail": {
+                    "name": "thumbnail_bear.png",
+                    "hash": "thumbnail_bear_9ab8b40921",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 163,
+                    "height": 156,
+                    "size": 9.68,
+                    "path": null,
+                    "url": "/uploads/thumbnail_bear_9ab8b40921.png"
+                },
+                "medium": {
+                    "name": "medium_bear.png",
+                    "hash": "medium_bear_9ab8b40921",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 750,
+                    "height": 716,
+                    "size": 65.3,
+                    "path": null,
+                    "url": "/uploads/medium_bear_9ab8b40921.png"
+                },
+                "small": {
+                    "name": "small_bear.png",
+                    "hash": "small_bear_9ab8b40921",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 500,
+                    "height": 477,
+                    "size": 38.28,
+                    "path": null,
+                    "url": "/uploads/small_bear_9ab8b40921.png"
+                }
+            },
+            "hash": "bear_9ab8b40921",
+            "ext": ".png",
+            "mime": "image/png",
+            "size": 20.54,
+            "url": "/uploads/bear_9ab8b40921.png",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "created_at": "2021-08-01T19:14:03.051Z",
+            "updated_at": "2021-08-01T19:14:03.059Z"
+        }
+    },
+    {
+        "id": 2,
+        "pet_name": "tiger",
+        "pet_rarity": "Rare",
+        "pet_point": 110,
+        "published_at": "2021-08-01T19:16:17.642Z",
+        "created_at": "2021-08-01T19:16:13.612Z",
+        "updated_at": "2021-08-01T19:16:17.654Z",
+        "pet_image": {
+            "id": 6,
+            "name": "TRUE VISION 1.png",
+            "alternativeText": "",
+            "caption": "",
+            "width": 901,
+            "height": 801,
+            "formats": {
+                "thumbnail": {
+                    "name": "thumbnail_TRUE VISION 1.png",
+                    "hash": "thumbnail_TRUE_VISION_1_95af4a2987",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 175,
+                    "height": 156,
+                    "size": 8.75,
+                    "path": null,
+                    "url": "/uploads/thumbnail_TRUE_VISION_1_95af4a2987.png"
+                },
+                "medium": {
+                    "name": "medium_TRUE VISION 1.png",
+                    "hash": "medium_TRUE_VISION_1_95af4a2987",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 750,
+                    "height": 667,
+                    "size": 62.09,
+                    "path": null,
+                    "url": "/uploads/medium_TRUE_VISION_1_95af4a2987.png"
+                },
+                "small": {
+                    "name": "small_TRUE VISION 1.png",
+                    "hash": "small_TRUE_VISION_1_95af4a2987",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 500,
+                    "height": 445,
+                    "size": 35.87,
+                    "path": null,
+                    "url": "/uploads/small_TRUE_VISION_1_95af4a2987.png"
+                }
+            },
+            "hash": "TRUE_VISION_1_95af4a2987",
+            "ext": ".png",
+            "mime": "image/png",
+            "size": 26.52,
+            "url": "/uploads/TRUE_VISION_1_95af4a2987.png",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "created_at": "2021-08-01T19:15:48.859Z",
+            "updated_at": "2021-08-01T19:15:48.867Z"
+        }
+    },
+    {
+        "id": 3,
+        "pet_name": "monkey",
+        "pet_rarity": "Epic",
+        "pet_point": 250,
+        "published_at": "2021-08-01T19:38:08.383Z",
+        "created_at": "2021-08-01T19:17:18.957Z",
+        "updated_at": "2021-08-01T19:38:08.396Z",
+        "pet_image": {
+            "id": 7,
+            "name": "Oggy.png",
+            "alternativeText": "",
+            "caption": "",
+            "width": 828,
+            "height": 935,
+            "formats": {
+                "thumbnail": {
+                    "name": "thumbnail_Oggy.png",
+                    "hash": "thumbnail_Oggy_1d6cc43cfb",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 138,
+                    "height": 156,
+                    "size": 26.2,
+                    "path": null,
+                    "url": "/uploads/thumbnail_Oggy_1d6cc43cfb.png"
+                },
+                "medium": {
+                    "name": "medium_Oggy.png",
+                    "hash": "medium_Oggy_1d6cc43cfb",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 664,
+                    "height": 750,
+                    "size": 262.35,
+                    "path": null,
+                    "url": "/uploads/medium_Oggy_1d6cc43cfb.png"
+                },
+                "small": {
+                    "name": "small_Oggy.png",
+                    "hash": "small_Oggy_1d6cc43cfb",
+                    "ext": ".png",
+                    "mime": "image/png",
+                    "width": 443,
+                    "height": 500,
+                    "size": 142.08,
+                    "path": null,
+                    "url": "/uploads/small_Oggy_1d6cc43cfb.png"
+                }
+            },
+            "hash": "Oggy_1d6cc43cfb",
+            "ext": ".png",
+            "mime": "image/png",
+            "size": 63.22,
+            "url": "/uploads/Oggy_1d6cc43cfb.png",
+            "previewUrl": null,
+            "provider": "local",
+            "provider_metadata": null,
+            "created_at": "2021-08-01T19:16:48.253Z",
+            "updated_at": "2021-08-01T19:16:48.261Z"
+        }
+    }
+]
