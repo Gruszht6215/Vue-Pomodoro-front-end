@@ -1,12 +1,31 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <div v-if="this.isTimerRunning === false">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
+      <div v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      isTimerRunning: false,
+    };
+  },
+  mounted() {
+    this.$root.$on("isTimerRunning", (timerStatus) => {
+      this.isTimerRunning = timerStatus;
+    });
+  },
+  methods: {},
+};
+</script>
 
 <style lang="scss">
 #app {
