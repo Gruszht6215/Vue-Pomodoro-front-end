@@ -2,8 +2,56 @@
   <div>
     <div id="timer">
       <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
-      <button @click="startTimer">Start</button>
-      <button @click="stopTimer">Stop</button>
+      <button @click="startTimer" v-if="isRunning === false">Start</button>
+      <button @click="stopTimer" v-if="isRunning === true">Stop</button>
+
+      <form @submit.prevent="submitEdit" v-if="isEdit === true">
+        <label for="timerEditForm">Set Timer</label>
+        <div id="inputEditForm">
+          <label>
+            Hour (0 - 23):
+            <input
+              type="number"
+              id="timerEditForm"
+              placeholder="0-23 hours"
+              min="0"
+              max="23"
+              v-model="defaultTimer.dafaultHour"
+            />
+          </label>
+          <label>
+            Minute (0 - 59):
+            <input
+              type="number"
+              id="timerEditForm"
+              placeholder="0-59 minutes"
+              min="0"
+              max="59"
+              v-model="defaultTimer.dafaultMinute"
+            />
+          </label>
+          <label>
+            Second (0 - 59):
+            <input
+              type="number"
+              id="timerEditForm"
+              v-model="defaultTimer.dafaultSecond"
+              placeholder="0-59 seconds"
+              min="0"
+              max="59"
+            />
+          </label>
+        </div>
+      </form>
+      <button
+        @click="openEditForm"
+        v-if="isRunning === !true && isEdit === false"
+      >
+        Edit Timer
+      </button>
+      <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
+      <button @click="cancelEdit" v-if="isEdit === true">Cancel</button>
+
       <!-- <button @click="submit">click</button> -->
     </div>
   </div>
@@ -14,10 +62,16 @@ export default {
   data() {
     return {
       hour: 1,
-      minute: 1,
+      minute: 5,
       second: 5,
       totalTime: 0,
+      defaultTimer: {
+        dafaultHour: "",
+        dafaultMinute: "",
+        dafaultSecond: "",
+      },
       isRunning: false,
+      isEdit: false,
     };
   },
 
@@ -25,14 +79,23 @@ export default {
     startTimer() {
       this.isRunning = true;
       this.$root.$emit("isTimerRunning", this.isRunning);
-      console.log(this.isRunning);
       this.totalTime = this.second + this.minute * 60 + this.hour * 60 * 60;
+      this.defaultTimer.dafaultHour = this.hour;
+      this.defaultTimer.dafaultMinute = this.minute;
+      this.defaultTimer.dafaultSecond = this.second;
       this.timer = setInterval(() => this.timerCal(), 1000);
     },
     stopTimer() {
+      clearInterval(this.timer);
+      this.hour = this.defaultTimer.dafaultHour;
+      this.minute = this.defaultTimer.dafaultMinute;
+      this.second = this.defaultTimer.dafaultSecond;
+      this.totalTime = this.second + this.minute * 60 + this.hour * 60 * 60;
+      this.second = this.totalTime - (this.minute * 60 + this.hour * 60 * 60);
+      this.minute = Math.floor((this.totalTime - this.hour * 60 * 60) / 60);
+      this.hour = Math.floor(this.totalTime / (60 * 60));
       this.isRunning = false;
       this.$root.$emit("isTimerRunning", this.isRunning);
-      clearInterval(this.timer);
     },
     timerCal() {
       this.totalTime--;
@@ -47,7 +110,31 @@ export default {
       this.hour = Math.floor(this.totalTime / (60 * 60));
     },
     adaptTime(time) {
+      if (time === -1) {
+        time = 59;
+      }
       return (time < 10 ? "0" : "") + time;
+    },
+    openEditForm() {
+      this.isEdit = true;
+    },
+    cancelEdit() {
+      this.isEdit = false;
+    },
+    submitEdit() {
+      if (
+        this.defaultTimer.dafaultHour > 23 ||
+        this.defaultTimer.dafaultMinute > 59 ||
+        this.defaultTimer.dafaultSecond > 59 ||
+        this.defaultTimer.dafaultHour < 0 ||
+        this.defaultTimer.dafaultMinute < 0 ||
+        this.defaultTimer.dafaultSecond < 0
+      ) {
+        console.log("wrong");
+      }
+      console.log(this.defaultTimer.dafaultHour);
+      console.log(this.defaultTimer.dafaultMinute);
+      console.log(this.defaultTimer.dafaultSecond);
     },
   },
   computed: {
@@ -77,18 +164,14 @@ export default {
   height: 700px;
   left: 50%;
   top: 50%;
-  h1 {
-  }
 }
-// #timer {
-//   background: navajowhite;
-//   position: center;
-//   left: 50%;
-//   top: 50%;
-//   // width: 200px;
-//   // height: 200px;
-//   // display: flex;
-//   // flex-direction: column;
-//   // align-items: center;
-// }
+#timerEditForm {
+  width: 100px;
+}
+#inputEditForm {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: center;
+}
 </style>
