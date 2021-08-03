@@ -2,55 +2,62 @@
   <div>
     <div id="timer">
       <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
-      <button @click="startTimer" v-if="isRunning === false">Start</button>
-      <button @click="stopTimer" v-if="isRunning === true">Stop</button>
+      <div>
+        <button
+          @click="startTimer"
+          v-if="isRunning === false && isEdit === false"
+        >
+          Start
+        </button>
+        <button @click="stopTimer" v-if="isRunning === true">Give Up</button>
 
-      <form @submit.prevent="submitEdit" v-if="isEdit === true">
-        <label for="timerEditForm">Set Timer</label>
-        <div id="inputEditForm">
-          <label>
-            Hour (0 - 23):
-            <input
-              type="number"
-              id="timerEditForm"
-              placeholder="0-23 hours"
-              min="0"
-              max="23"
-              v-model="defaultTimer.dafaultHour"
-            />
-          </label>
-          <label>
-            Minute (0 - 59):
-            <input
-              type="number"
-              id="timerEditForm"
-              placeholder="0-59 minutes"
-              min="0"
-              max="59"
-              v-model="defaultTimer.dafaultMinute"
-            />
-          </label>
-          <label>
-            Second (0 - 59):
-            <input
-              type="number"
-              id="timerEditForm"
-              v-model="defaultTimer.dafaultSecond"
-              placeholder="0-59 seconds"
-              min="0"
-              max="59"
-            />
-          </label>
-        </div>
-      </form>
-      <button
-        @click="openEditForm"
-        v-if="isRunning === !true && isEdit === false"
-      >
-        Edit Timer
-      </button>
-      <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
-      <button @click="cancelEdit" v-if="isEdit === true">Cancel</button>
+        <form @submit.prevent="submitEdit" v-if="isEdit === true">
+          <label for="timerEditForm">Set Timer</label>
+          <div id="inputEditForm">
+            <label>
+              Hour (0 - 23):
+              <input
+                type="number"
+                id="timerEditForm"
+                placeholder="0-23 hours"
+                min="0"
+                max="23"
+                v-model="defaultTimer.dafaultHour"
+              />
+            </label>
+            <label>
+              Minute (0 - 59):
+              <input
+                type="number"
+                id="timerEditForm"
+                placeholder="0-59 minutes"
+                min="0"
+                max="59"
+                v-model="defaultTimer.dafaultMinute"
+              />
+            </label>
+            <label>
+              Second (0 - 59):
+              <input
+                type="number"
+                id="timerEditForm"
+                v-model="defaultTimer.dafaultSecond"
+                placeholder="0-59 seconds"
+                min="0"
+                max="59"
+              />
+            </label>
+          </div>
+        </form>
+        <button
+          @click="openEditForm"
+          v-if="isRunning === !true && isEdit === false"
+        >
+          Edit Timer
+        </button>
+        <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
+        <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
+      </div>
 
       <!-- <button @click="submit">click</button> -->
     </div>
@@ -62,8 +69,8 @@ export default {
   data() {
     return {
       hour: 1,
-      minute: 5,
-      second: 5,
+      minute: 30,
+      second: 0,
       totalTime: 0,
       defaultTimer: {
         dafaultHour: "",
@@ -118,7 +125,7 @@ export default {
     openEditForm() {
       this.isEdit = true;
     },
-    cancelEdit() {
+    closeEditForm() {
       this.isEdit = false;
     },
     submitEdit() {
@@ -128,13 +135,22 @@ export default {
         this.defaultTimer.dafaultSecond > 59 ||
         this.defaultTimer.dafaultHour < 0 ||
         this.defaultTimer.dafaultMinute < 0 ||
-        this.defaultTimer.dafaultSecond < 0
+        this.defaultTimer.dafaultSecond < 0 ||
+        this.defaultTimer.dafaultHour === "" ||
+        this.defaultTimer.dafaultMinute === "" ||
+        this.defaultTimer.dafaultSecond === ""
       ) {
-        console.log("wrong");
+        swal(
+          "Warning",
+          "hour must contain number between 0-23\n minute&second must contain number between 0-59",
+          "warning"
+        );
+      } else {
+        this.hour = parseInt(this.defaultTimer.dafaultHour);
+        this.minute = parseInt(this.defaultTimer.dafaultMinute);
+        this.second = parseInt(this.defaultTimer.dafaultSecond);
+        this.closeEditForm();
       }
-      console.log(this.defaultTimer.dafaultHour);
-      console.log(this.defaultTimer.dafaultMinute);
-      console.log(this.defaultTimer.dafaultSecond);
     },
   },
   computed: {
