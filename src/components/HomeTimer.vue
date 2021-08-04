@@ -1,7 +1,15 @@
 <template>
   <div>
     <div id="timer">
-      <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
+      <div id="point">
+        <h1>
+          {{ showPointReward }} <br />
+          <p>Waiting For You!</p>
+        </h1>
+      </div>
+      <div id="showTimer">
+        <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
+      </div>
       <div>
         <button
           @click="startTimer"
@@ -79,11 +87,13 @@ export default {
       },
       isRunning: false,
       isEdit: false,
+      pointReward: 90,
     };
   },
 
   methods: {
     startTimer() {
+      this.pointCal(this.hour, this.minute, this.second);
       this.isRunning = true;
       this.$root.$emit("isTimerRunning", this.isRunning);
       this.totalTime = this.second + this.minute * 60 + this.hour * 60 * 60;
@@ -105,16 +115,40 @@ export default {
       this.$root.$emit("isTimerRunning", this.isRunning);
     },
     timerCal() {
-      this.totalTime--;
-      if (this.second === -1) {
-        this.second = 59;
+      if (this.hour === 0 && this.minute === 0 && this.second === 0) {
+        this.reachGoal();
+        swal(
+          "Goal!!!",
+          "You've got " +
+            this.pointReward +
+            (this.pointReward > 1 ? " Points." : " Point."),
+          "success"
+        );
+        this.second = 0;
+        this.minute = 30;
+        this.hour = 1;
+      } else {
+        this.totalTime--;
+        if (this.second === -1) {
+          this.second = 59;
+        }
+        if (this.minute === -1) {
+          this.minute = 59;
+        }
+        this.second = this.totalTime - (this.minute * 60 + this.hour * 60 * 60);
+        this.minute = Math.floor((this.totalTime - this.hour * 60 * 60) / 60);
+        this.hour = Math.floor(this.totalTime / (60 * 60));
       }
-      if (this.minute === -1) {
-        this.minute = 59;
-      }
-      this.second = this.totalTime - (this.minute * 60 + this.hour * 60 * 60);
-      this.minute = Math.floor((this.totalTime - this.hour * 60 * 60) / 60);
-      this.hour = Math.floor(this.totalTime / (60 * 60));
+    },
+    reachGoal() {
+      clearInterval(this.timer);
+      this.isRunning = false;
+      this.$root.$emit("isTimerRunning", this.isRunning);
+    },
+    pointCal(h, m, s) {
+      console.log(this.pointReward);
+      this.pointReward =
+        Math.floor(s * 0.1) + Math.floor(m * 0.8) + Math.floor(h * 66);
     },
     adaptTime(time) {
       if (time === -1) {
@@ -149,11 +183,17 @@ export default {
         this.hour = parseInt(this.defaultTimer.dafaultHour);
         this.minute = parseInt(this.defaultTimer.dafaultMinute);
         this.second = parseInt(this.defaultTimer.dafaultSecond);
+        this.pointCal(this.hour, this.minute, this.second);
         this.closeEditForm();
       }
     },
   },
   computed: {
+    showPointReward() {
+      return (
+        this.pointReward + " " + (this.pointReward > 1 ? "Points" : "Point")
+      );
+    },
     showSecond() {
       return this.adaptTime(this.second);
     },
@@ -177,7 +217,7 @@ export default {
   flex-direction: column;
   margin: 20px auto;
   width: 600px;
-  height: 700px;
+  height: 900px;
   left: 50%;
   top: 50%;
 }
@@ -189,5 +229,21 @@ export default {
   align-items: flex-end;
   flex-direction: column;
   justify-content: center;
+}
+#showTimer {
+  background-color: pink;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid red 2px;
+  border-radius: 50%;
+  width: 210px;
+  height: 210px;
+}
+#point {
+  // margin-bottom: 100px;
+  position: absolute;
+  top: 220px;
 }
 </style>
