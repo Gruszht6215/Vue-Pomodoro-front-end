@@ -5,7 +5,8 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link> |
         <router-link to="/login">Login</router-link> |
-        <router-link to="/logout">Logout</router-link>
+        <router-link to="/logout">Logout</router-link> |
+        <router-link to="/register">Register</router-link>
       </div>
       <div v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
     </div>
