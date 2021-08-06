@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Reward from '@/views/Reward'
-//ทำหน้าเพิ่มสัตว์เลี้ยงสำหรับ admin อย่าลืมทำ!!!
 
 Vue.use(VueRouter)
 

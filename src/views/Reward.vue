@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import RewardPage from '@/components/RewardPage'
+import RewardPage from '@/components/reward/RewardPage'
 export default {
     name: 'Reward',
     components: {
-        RewardPage
+        RewardPage,
     }
 }
 </script>

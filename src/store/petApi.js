@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Axios from "axios"
 
-import PetApiJson from '@/store/PetApiJson.json'
+//import PetApiJson from '@/store/PetApiJson.json'
 
-const api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:1337"
+let api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:1337"
 
 Vue.use(Vuex)
 
@@ -23,14 +24,40 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        fetchItem({ commit }) {
-            let res = {
-                data: PetApiJson,
-            }
+        async fetchItem({ commit }) {
+            let res = await Axios.get(api_endpoint + '/pets')
             commit('fetch', { res })
         },
-        addItem({ commit }, payload) {
-            commit('add', { payload })
+        async addItem({ commit }, payload) {
+            let url = api_endpoint + '/pets'
+            let body = {
+                pet_name: payload.pet_name,
+                pet_rarity: payload.pet_rarity,
+                pet_point: payload.pet_point,
+                pet_image: payload.pet_image
+            }
+            let res = await Axios.post(url, body)
+            if (res.status === 200) {
+                commit('add', res.data)
+            } else {
+                console.error(res)
+            }
+        },
+        async editItem({ commit }, payload) {
+            let url = api_endpoint + '/pets/' + payload.id
+            let body = {
+                pet_name: payload.pet_name,
+                pet_rarity: payload.pet_rarity,
+                pet_point: payload.pet_point,
+                pet_image: payload.pet_image
+            }
+            let res = await Axios.put(url, body)
+            if (res.status === 200) {
+                commit('edit', payload.index, res.data)
+                console.log("commit('edit')", payload.index, res.data)
+            } else {
+                console.error(res)
+            }
         },
 
     },

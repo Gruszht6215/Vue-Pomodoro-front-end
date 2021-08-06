@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PetInfo from '@/components/PetInfo'
+import PetInfo from '@/components/reward/PetInfo'
 export default {
     components: {
         PetInfo
