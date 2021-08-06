@@ -12,7 +12,7 @@ export default new Vuex.Store({
         data: [],
     },
     getters: {
-        pets: (state) => state.data,
+        leaders: (state) => state.data,
     },
     mutations: {
         fetch(state, { res }) {
@@ -23,8 +23,8 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async fetchPet({ commit }) {
-            let res = await Axios.get(api_endpoint + "/pets")
+        async fetchLeader({ commit }) {
+            let res = await Axios.get(api_endpoint + "/leaderboards?_sort=point_amount:DESC")
             commit('fetch', { res })
         }
     },

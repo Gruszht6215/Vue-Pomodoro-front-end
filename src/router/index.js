@@ -26,6 +26,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue')
   },
+  {
+    path: '/leaderboard',
+    name: 'LeaderBoard',
+    component: () => import(/* webpackChunkName: "about" */ '../views/LeaderBoard.vue')
+  }
 ]
 
 const router = new VueRouter({

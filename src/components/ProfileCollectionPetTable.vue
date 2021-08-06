@@ -1,17 +1,18 @@
 <template>
   <div>
-      <table>
+      <h2>Pet Collection</h2>
+      <d-table class="table table-striped">
           <thead>
-              <tr class="table">
+              <tr>
                   <th>#</th>
                   <th>Name</th>
                   <th>Rarity</th>
                   <th>Point</th>
-                  <th>image</th>
+                  <th>Image</th>
                   <th>Action</th>
               </tr>
           </thead>
-          <tbody>
+          <tbody >
             <tr v-for="(pet, index) in pets" :key="index">
             <td>{{ index + 1 }}</td>
             <td v-if="index !== editIndex">{{ pet.pet_name }}</td>
@@ -27,17 +28,16 @@
             <td v-if="index === editIndex">
                 <input type="text" v-model="form.pet_point" />
             </td>
-            ---
-            <!-- <td v-if="index !== editIndex">{{ pet.pet_image }}</td> -->
-            <!-- <td v-if="index === editIndex">
-                <img src=pet.image alt=""> -->
-            <!-- </td> -->
+            <td v-if="index !== editIndex"><img :src="getImage(pet.pet_image.url)" width="50"></td>
+            <td v-if="index === editIndex">
+                <img src="getImage(pet.pet_image.url)" alt="">
+            </td>
             <td>
                 <button type="text">DELETE</button>
             </td>
             </tr>
           </tbody>
-      </table>
+      </d-table>
   </div>
 </template>
 
@@ -66,41 +66,16 @@ export default {
             await PetApiStore.dispatch("fetchPet")
             this.pets = PetApiStore.getters.pets
         },
-        openForm(index,pet){
-            this.editIndex = index
-            let cloned = JSON.parse(JSON.stringify(pet))
-            this.form.pet_name = cloned.pet_name
-            this.form.pet_rarity = cloned.pet_rarity
-        },
-        closeForm(){
-            this.editIndex = -1
-            this.form = {
-                id: "",
-                pet_name:"",
-                pet_rarity:"",
-                pet_point:"",
-                pet_image:""
-
-            }
-        },
-        async editPet(){
-            let payload = {
-                index: this.editIndex,
-                id: this.form.id,
-                pet_name: this.form.pet_name,
-                pet_rarity: this.form.pet_rarity,
-                pet_point: this.form.pet_point,
-                pet_image: this.form.pet_image
-            }
-            console.log(payload)
-            await PetApiStore.dispatch("editPet",payload)
-            this.closeForm()
-            this.fetchPet()
+        getImage(url){
+            return "http://localhost:3000"+url
         }
     }
 }
 </script>
 
 <style>
-
+img{
+    position: relative;
+    border-radius: 50%;
+}
 </style>
