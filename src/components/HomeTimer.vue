@@ -63,6 +63,7 @@
         >
           Edit Timer
         </button>
+        <!-- <button @click="test">test</button> -->
         <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
         <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
       </div>
@@ -73,6 +74,8 @@
 </template>
 
 <script>
+import AuthService from "@/services/AuthService";
+
 export default {
   data() {
     return {
@@ -92,6 +95,16 @@ export default {
   },
 
   methods: {
+    // test() {
+    //   var d = new Date();
+    //   var datestring =
+    //     d.getFullYear() +
+    //     "-" +
+    //     ("0" + (d.getMonth() + 1)).slice(-2) +
+    //     "-" +
+    //     ("0" + d.getDate()).slice(-2);
+    //   console.log(datestring);
+    // },
     startTimer() {
       this.pointCal(this.hour, this.minute, this.second);
       this.isRunning = true;
@@ -142,6 +155,7 @@ export default {
     },
     reachGoal() {
       clearInterval(this.timer);
+      AuthService.receivePoint(this.pointReward);
       this.isRunning = false;
       this.$root.$emit("isTimerRunning", this.isRunning);
     },
