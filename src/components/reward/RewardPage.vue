@@ -1,7 +1,12 @@
 <template>
   <div>
       <h1><i>Reward </i>🌷</h1>
+      <div class="fixed-boxUser">
+        <p>Username : ... <br>
+        My Point : ...</p>
+      </div>
       <pet-info></pet-info>
+      <button class="fixed-btn" @click="logout()">Logout</button>
   </div>
 </template>
 
@@ -10,13 +15,44 @@ import PetInfo from '@/components/reward/PetInfo'
 export default {
     components: {
         PetInfo
+    },
+    methods: {
+        logout() {
+            ///
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+.fixed-btn{
+  position: fixed;
+  bottom: 4%;
+  right: 2%;
+  background: #f39aff;
+  width: 130px;
+  height: 40px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px #ee34de;
+  cursor: pointer;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #fff;
+}
+.fixed-btn:active{
+  box-shadow: 0  0;
+}
+.fixed-boxUser {
+  position: fixed;
+  top: 12%;
+  right: 2%;
+  border-radius: 25px;
+  background: #f39aff;
+  box-shadow: 4px 4px 4px #ee34de;
+  padding: 10px 30px;
+  width: fit-content;
+  height: fit-content;
+  color: rgb(255, 255, 255);
 }
 </style>

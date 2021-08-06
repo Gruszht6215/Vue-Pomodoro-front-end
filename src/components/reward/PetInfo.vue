@@ -161,4 +161,10 @@ img {
   width: 250px;
   height: 250px;
 }
+button {
+  text-align: center;
+  border-radius: 10px;
+  background: #ffbbf4;
+  cursor: pointer;
+}
 </style>
