@@ -93,8 +93,27 @@ export default {
       pointReward: 90,
     };
   },
-
+  beforeMount() {
+    window.addEventListener("beforeunload", this.preventNav);
+    this.$once("hook:beforeDestroy", () => {
+      window.removeEventListener("beforeunload", this.preventNav);
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.isRunning) {
+      if (!window.confirm("Leave without saving?")) {
+        return;
+      }
+    }
+    next();
+  },
   methods: {
+    preventNav(event) {
+      if (!this.isRunning) return;
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = "";
+    },
     // test() {
     //   var d = new Date();
     //   var datestring =
