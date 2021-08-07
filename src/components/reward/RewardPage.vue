@@ -27,6 +27,7 @@ export default {
     PetInfo,
   },
   methods: {
+    
     logout() {
       console.log(AuthUser.getters.user);
     },

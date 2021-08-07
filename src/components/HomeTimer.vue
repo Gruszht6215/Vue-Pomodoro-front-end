@@ -101,39 +101,22 @@ export default {
   created() {
     this.fetchProfile();
   },
-  beforeMount() {
-    window.addEventListener("beforeunload", this.preventNav);
-    this.$once("hook:beforeDestroy", () => {
-      window.removeEventListener("beforeunload", this.preventNav);
-    });
-  },
-  beforeRouteLeave(to, from, next) {
-    if (this.isRunning) {
-      if (!window.confirm("Leave without saving?")) {
-        return;
-      }
-    }
-    next();
-  },
+
   methods: {
     isAuthen() {
       return AuthUser.getters.user.user_profile.profile_point;
     },
     async fetchProfile() {
       await ProfileApi.dispatch("fetchItem", AuthUser.getters.user.id);
+
       this.profilePoint = ProfileApi.getters.profile(
-        AuthUser.getters.user.id
+        AuthUser.getters.user.username
       ).profile_point;
     },
-    preventNav(event) {
-      if (!this.isRunning) return;
-      event.preventDefault();
-      // Chrome requires returnValue to be set.
-      event.returnValue = "";
-    },
     // test() {
-    //   AuthService.getAuthData();
-    //   console.log(this.profilePoint);
+    //   // AuthService.getAuthData();
+    //   console.log(AuthUser.getters.user.username);
+    //   console.log(AuthUser.getters.user);
     // },
     startTimer() {
       this.pointCal(this.hour, this.minute, this.second);
@@ -186,8 +169,12 @@ export default {
     },
     async reachGoal() {
       clearInterval(this.timer);
-      await AuthService.receivePoint(this.pointReward);
+      let currentProfileAccountId = ProfileApi.getters.profile(
+        AuthUser.getters.user.username
+      ).id;
+      await AuthService.receivePoint(currentProfileAccountId, this.pointReward);
       this.fetchProfile();
+
       this.isRunning = false;
       this.$root.$emit("isTimerRunning", this.isRunning);
     },

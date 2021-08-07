@@ -1,5 +1,6 @@
 import Axios from "axios"
 import ProfileApi from "@/store/ProfileApi";
+import AuthUser from "../store/AuthUser";
 
 const auth_key = "auth-account"
 let auth = JSON.parse(localStorage.getItem(auth_key))
@@ -21,10 +22,7 @@ export default {
     getJwt() {
         return jwt
     },
-    getAuthData() {
-        console.log("asdasd")
-        console.log(auth)
-    },
+
     async login({ email, password }) {
         try {
             let url = api_endpoint + "/auth/local"
@@ -64,9 +62,17 @@ export default {
                 email: email,
                 password: password
             }
+            console.log("body", body)
             let res = await Axios.post(url, body)
             if (res.status === 200) {
                 localStorage.setItem(auth_key, JSON.stringify(res.data))
+                //then create Profile for this account 
+                let payload = {
+                    profile_user: res.data.user.id,
+                    profile_point: 0,
+                    pet_collection: ""
+                }
+                ProfileApi.dispatch('addProfile', payload)
                 return {
                     success: true,
                     user: res.data.user,
@@ -89,9 +95,11 @@ export default {
             }
         }
     },
-    async receivePoint(point) {
+    async receivePoint(profile_id, point) {
         try {
-            let profile_id = auth.user.user_profile.id
+            // console.log(auth)
+            // console.log(auth)
+            // let profile_id = auth.user.user_profile.id
 
             let url_profile = api_endpoint + "/profiles/" + profile_id
             let url_leaderboard = api_endpoint + "/leaderboards"
@@ -103,12 +111,12 @@ export default {
                 let totalPoint = parseInt(res_profile.data.profile_point) + parseInt(point)
 
                 let body_profile = {
-                    profile_user: profile_id,
+                    profile_id: profile_id,
+                    profile_user: AuthUser.getters.user.id,
                     profile_point: totalPoint,
                     pet_collection: id_pet_collection
                 }
                 await ProfileApi.dispatch("editProfile", body_profile)
-
             } else {
                 console.log(res_profile)
             }
@@ -127,6 +135,7 @@ export default {
                 point_amount: point,
                 active_date: datestring,
             }
+
 
             let res_leaderboard = await Axios.post(url_leaderboard, body_leaderboard);
 
