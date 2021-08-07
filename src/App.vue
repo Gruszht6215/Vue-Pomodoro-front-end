@@ -6,7 +6,9 @@
         <router-link to="/reward">Reward</router-link> |
         <router-link to="/login">Login</router-link> |
         <router-link to="/logout">Logout</router-link> |
-        <router-link to="/register">Register</router-link>
+        <router-link to="/register">Register</router-link> |
+        <router-link to="/profile">Profile</router-link> |
+        <router-link to="/leaderboard">Leader Board</router-link>
       </div>
       <div v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
     </div>

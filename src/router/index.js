@@ -5,6 +5,7 @@ import Reward from '@/views/Reward'
 import Login from '@/views/auth/Login.vue'
 import Logout from '@/views/auth/Logout.vue'
 import Register from '@/views/auth/Register.vue'
+import LeaderBoard from '@/views/LeaderBoard.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,19 @@ const routes = [{
   path: '/register',
   name: 'Register',
   component: Register
+},
+{
+  path: '/profile',
+  name: 'Profiles',
+  // route level code-splitting
+  // this generates a separate chunk (about.[hash].js) for this route
+  // which is lazy-loaded when the route is visited.
+  component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue')
+},
+{
+  path: '/leaderboard',
+  name: 'LeaderBoard',
+  component: LeaderBoard
 },
 ]
 

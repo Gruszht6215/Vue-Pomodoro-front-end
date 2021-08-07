@@ -1,0 +1,77 @@
+<template>
+  <div> 
+      <h3>Receive Leader Board</h3>
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                <th>Email</th>
+                <th>Received Point</th>
+                <th>Date</th>
+              </tr>
+          </thead>
+          <tbody>
+                <tr v-for="(lead, index) in leaders" :key="index">
+                <td v-if="(lead.point_type === 'Receive')">{{ lead.user_email }}</td>
+                <td v-if="(lead.point_type === 'Receive')">{{ lead.point_amount }}</td>
+                <td v-if="(lead.point_type === 'Receive')">{{ lead.active_date.substring(0,10)}}</td>
+                </tr>
+          </tbody>
+      </table>
+      <div>
+          <h3>Spend Leader Board</h3>
+          <table class="table table-striped">
+          <thead>
+              <tr>
+                <th>Email</th>
+                <th>Spend Point</th>
+                <th>Date</th>
+              </tr>
+          </thead>
+          <tbody>
+                <tr v-for="(lead, index1) in leaders" :key="index1">
+
+                <td v-if="(lead.point_type === 'Spend')">{{ lead.user_email }}</td>
+                <td v-if="(lead.point_type === 'Spend')">{{ lead.point_amount }}</td>
+                <td v-if="(lead.point_type === 'Spend')">{{ lead.active_date.substring(0,10)}}</td>
+                </tr>
+          </tbody>
+      </table>
+      
+      </div>
+  </div>
+</template>
+
+<script scr="./src/tablesort.js">
+    import LeaderBoardApiStore from "@/store/LeaderBoardApi.js";
+
+export default {
+    data(){
+        return{
+            leaders: [],
+            editIndex: -1,
+            form:{
+                id:"",
+                user_email:"",
+            }
+        }
+    },
+    created(){
+    this.fetchLeader()
+    },
+    methods:{
+        async fetchLeader(){
+            await LeaderBoardApiStore.dispatch("fetchLeader")
+            this.leaders = LeaderBoardApiStore.getters.leaders
+        },
+    }
+    
+}
+</script>
+
+<style>
+
+h3{
+    display: block;
+    text-align: center;
+}
+</style>
