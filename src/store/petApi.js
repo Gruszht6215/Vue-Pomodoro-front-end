@@ -4,7 +4,7 @@ import Axios from "axios"
 
 //import PetApiJson from '@/store/PetApiJson.json'
 
-let api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:3000"
+let api_endpoint = "http://localhost:1337"
 
 Vue.use(Vuex)
 

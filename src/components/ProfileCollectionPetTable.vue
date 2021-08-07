@@ -63,7 +63,7 @@ export default {
             this.pets = PetApiStore.getters.pets
         },
         getImage(url){
-            return "http://localhost:3000"+url
+            return "http://localhost:1337"+url
         }
     }
 }

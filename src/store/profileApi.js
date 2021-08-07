@@ -65,7 +65,7 @@ export default new Vuex.Store({
         },
         async editProfile({ commit }, payload) {
             let url = api_endpoint + '/profiles/' + payload.profile_id
-            // console.log("payload.profile_point", payload.profile_user)
+                // console.log("payload.profile_point", payload.profile_user)
             let body = {
                 profile_user: payload.profile_user,
                 profile_point: payload.profile_point,

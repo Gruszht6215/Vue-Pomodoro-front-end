@@ -1,32 +1,46 @@
 <template>
   <div class="row">
     <div>
-      <button class="open-button" @click="openFormToAdd()">Add new pet</button>
-      <div class="form-popup" tagname="myForm">
+      <form @submit.prevent="submitEdit" v-if="isEdit === true">
+        <label for="AddNewPet">Add New Pet</label>
         <div>
-          <label for="pet_name">Name :</label>
-          <input type="text" v-model="form.pet_name">
+          <label>Name : <input type="text" placeholder="name" maxlength="20" v-model="form.pet_name"/></label><br>
+          <label>Rarity : <select name="pet_rarity" v-model="form.pet_rarity">
+            <option value="pet_rarity" v-for="(pet,index) in pets" v-bind:key="index">{{pet.pet_rarity}}</option>
+          </select></label><br>
+          <label>Point : <input type="number" placeholder="point" max="1000" v-model="form.pet_point"></label><br>
+          <!-- อย่าลืมทำที่ input image -->
         </div>
-        <div>
-          <label for="pet_rarity">Rarity :</label>
-          <input type="text" v-model="form.pet_rarity">
-        </div>
-        <div>
-          <label for="pet_point">Point :</label>
-          <input type="text" v-model="form.pet_point">
-        </div>
-        <!-- <div>
-          <input type="image" src="@/assets/photo.png" v-model="form.pet_image">
-        </div> -->
-      </div>
+      </form>
+      <button @click="openEditForm" v-if="isEdit === false">Add New Pet</button>
+      <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
+      <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
     </div>
-    <br>
+    <br><br>
        <div class="column" id="box" v-for="(pet,index) in pets" v-bind:key="index">
-         <img :src="getImage(pet.pet_image.url)">
-         <h2><i>{{pet.pet_name}}</i></h2>
-         <p>Rarity : {{pet.pet_rarity}}<br>
-         Point : {{pet.pet_point}} points</p>
-         <button @click="decreaseUserpoint(pet.id, 100)">Purchase</button> <!--สมมติ points-->
+         <div v-if="index !== editIndex"><img :src="getImage(pet.pet_image.url)"></div>
+         <!-- <div v-if="index === editIndex">
+           <input type="text">
+         </div> -->
+         <div v-if="index !== editIndex"><h2><i>{{pet.pet_name}}</i></h2></div>
+         <div v-if="index === editIndex">
+           <input type="text" v-model="form.pet_name"/>
+         </div>
+         <div v-if="index !== editIndex"><p>Rarity : {{pet.pet_rarity}}<br>
+         Point : {{pet.pet_point}} points</p></div>
+         <div v-if="index === editIndex">
+           <select name="pet_rarity" v-model="form.pet_rarity">
+            <option value="pet_rarity" v-for="(pet,index) in pets" v-bind:key="index">{{pet.pet_rarity}}</option>
+          </select>
+         </div>
+         <div v-if="index !== editIndex"><button @click="decreaseUserpoint(pet.id, 100)">Purchase</button></div> <!--สมมติ points-->
+         <div v-if="index === editIndex">
+           <button @click="editItem()">Update</button>
+           <button @click="closeForm()">Cancel</button>
+         </div>
+         <div>
+           <!-- <button @click="DeletePet" v-if="isEdit === false">Delete</button> -->
+         </div>
       </div>
   </div>
 </template>
@@ -47,6 +61,7 @@ export default {
         pet_point: "",
         pet_image: "",
       },
+      isEdit: false
     };
   },
 
@@ -90,11 +105,30 @@ export default {
         pet_image: "",
       };
     },
-    openFormToAdd() {
-      document.getElementsByTagName("myForm").style.display = 'block'
+    openEditForm() {
+      this.isEdit = true
     },
-    closeFormToAdd() {
-      document.getElementsByTagName("myForm").style.display = 'none'
+    closeEditForm() {
+      this.isEdit = false
+    },
+    submitEdit() {
+      if (this.form.pet_name === '' || this.form.pet_rarity === '' || this.form.pet_point === '') { //|| this.form.pet_image === ''
+      if (this.form.pet_point === 0 || this.form.pet_point < 0 || this.form.pet_point > 1000) {
+        swal(
+          "Warning",
+          "Point must between 1-1000",
+          "warning"
+        );
+      } else {
+        swal(
+          "Warning",
+          "Please field the data",
+          "warning"
+        );
+      }
+      } else {
+        this.addItem()
+      }
     },
     async editItem() {
       //for admin
@@ -123,6 +157,7 @@ export default {
       let res = await PetApi.dispatch("addItem", payload);
       if (res.success) {
         this.closeForm();
+        this.fetchItem();
       } else {
         console.log('Add mai dai')
         swal('Add Failed', res.message, 'error')
@@ -194,6 +229,7 @@ export default {
 }
 h2 {
   text-transform: capitalize;
+  margin-top: 10px;
 }
 img {
   display: block;
@@ -253,5 +289,7 @@ button, .open-button {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
-
+input {
+  width: 100px;
+}
 </style>
