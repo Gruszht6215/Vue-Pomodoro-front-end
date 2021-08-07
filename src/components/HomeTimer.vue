@@ -101,10 +101,14 @@ export default {
   created() {
     this.fetchProfile();
   },
-
+  mounted() {
+    if (!this.isAuthen()) {
+      swal("Restrited Area", "Please, login first", "warning");
+    }
+  },
   methods: {
     isAuthen() {
-      return AuthUser.getters.user.user_profile.profile_point;
+      return AuthUser.getters.isAuthen;
     },
     async fetchProfile() {
       await ProfileApi.dispatch("fetchItem", AuthUser.getters.user.id);
