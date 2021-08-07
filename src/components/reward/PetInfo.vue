@@ -1,0 +1,170 @@
+<template>
+  <div class="row">
+       <div class="column" id="box" v-for="(pet,index) in pets" v-bind:key="index">
+         <img :src="getImage(pet.pet_image.url)">
+         <h2><i>{{pet.pet_name}}</i></h2>
+         <p>Rarity : {{pet.pet_rarity}}<br>
+         Point : {{pet.pet_point}} points</p>
+         <button @click="decreaseUserpoint(pet.id)">Purchase</button>
+      </div>
+  </div>
+</template>
+
+<script>
+import PetApi from "@/store/petApi"
+
+export default {
+  data() {
+    return {
+      pets: [],
+      editIndex: -1,
+      form: {
+        id: '',
+        pet_name: '',
+        pet_rarity: '',
+        pet_point: '',
+        pet_image: ''
+      }
+    };
+  },
+
+  created() {
+    //ใช้ this เรียก methods ใน components ตัวเอง
+    this.fetchItem();
+  },
+
+  methods: {
+    async fetchItem() {
+      await PetApi.dispatch("fetchItem");
+      this.pets = PetApi.getters.pets;
+    },
+    openForm(index, pet) {
+      //for admin
+      this.editIndex = index
+      let cloned = JSON.parse(JSON.stringify(pet))
+      this.form.pet_name = cloned.pet_name
+      this.form.pet_rarity = cloned.pet_rarity
+      this.form.pet_point = cloned.pet_point
+    },
+    closeForm() {
+      //for admin
+      this.editIndex = -1
+      this.form = {
+        id: '',
+        pet_name: '',
+        pet_rarity: '',
+        pet_point: '',
+        pet_image: ''
+      }
+    },
+    async editItem() {
+      //for admin
+      let payload = {
+        index: this.editIndex,
+        id: this.form.id,
+        pet_name: this.form.pet_name,
+        pet_rarity: this.form.pet_rarity,
+        pet_point: this.form.pet_point,
+        //pet_image: this.form.pet_image ยังไม่ได้ split url
+      }
+      await PetApi.dispatch('editItem', payload)
+      this.closeForm()
+      this.fetchItem()
+    },
+    async addItem() {
+      //for admin
+      let payload = {
+        index: this.editIndex,
+        id: this.form.id,
+        pet_name: this.form.pet_name,
+        pet_rarity: this.form.pet_rarity,
+        pet_point: this.form.pet_point,
+        //pet_image: this.form.pet_image ยังไม่ได้ split url
+      }
+      let res = await PetApi.dispatch("addItem", payload)
+      if (res.success) {
+        this.closeForm()
+      } else {
+        console.log('Add mai dai')
+        this.$swal('Add Failed', res.message, 'error')
+      }
+    },
+    decreaseUserPoint(pet_id) {
+      //ลด point ของ user
+      console.log("clicked")
+      this.$swal({
+        title: "Are you sure to buy this pet?",
+        text: "If you click, You will receive a lovely pet!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willPurchase) => {
+          if (willPurchase) {
+            this.$swal("You received a lovely PET!", {
+              icon: "success",
+            });
+            var user_point = 200
+            this.pets.forEach(function(pet) {
+              if (pet_id === pet.id) {
+                user_point -= parseInt(pet.pet_point)
+              }
+            })
+            return user_point
+          } else {
+            this.$swal("This pet so sad to you.");
+          }
+        });
+    },
+    // addPetToUser() {
+    //   //เพิ่มสัตว์เลี้ยงให้ user
+    // },
+    getImage(url) {
+      return 'http://localhost:1337' + url
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+*{
+    box-sizing: border-box;
+}
+@media screen {
+  .column {
+    width: 100%;
+  }
+}
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+.row:after {
+  display: flex;
+  clear: both;
+}
+#box {
+    margin: 20px;
+    border-radius: 25px;
+    background: #f6ffea;
+    padding: 20px;
+    width: fit-content;
+    height: fit-content;
+}
+h2 {
+  text-transform: capitalize;
+}
+img {
+  display: block;
+  border-radius: 25px;
+  width: 250px;
+  height: 250px;
+}
+button {
+  text-align: center;
+  border-radius: 10px;
+  background: #ffbbf4;
+  cursor: pointer;
+}
+</style>

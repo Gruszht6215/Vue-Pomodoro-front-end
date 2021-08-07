@@ -1,6 +1,6 @@
 <template>
   <div>
-      <d-table class="table table-striped">
+      <table class="table table-striped">
           <thead>
               <tr>
                   <th>#</th>
@@ -24,25 +24,14 @@
             <td v-if="index === editIndex">
                 <input type="text" v-model="form.created_at" />
             </td>
-            <!-- <td v-if="index !== editIndex">{{ pet.pet_point }}</td>
-            <td v-if="index === editIndex">
-                <input type="text" v-model="form.pet_point" />
-            </td>
-            <td v-if="index !== editIndex"><img :src="getImage(pet.pet_image.url)" width="100" style="display:block;"></td>
-            <td v-if="index === editIndex">
-                <img src="getImage(pet.pet_image.url)" alt="">
-            </td>
-            <td>
-                <button type="text">DELETE</button>
-            </td> -->
             </tr>
           </tbody>
-      </d-table>
+      </table>
   </div>
 </template>
 
 <script>
-import ProfileApiStore from "@/store/profileApi.js"
+import ProfileApiStore from "@/store/ProfileApi.js"
 export default {
     data(){
         return{

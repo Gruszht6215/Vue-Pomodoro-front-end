@@ -1,7 +1,7 @@
 <template>
   <div>
       <h2>Pet Collection</h2>
-      <d-table class="table table-striped">
+      <table class="table table-striped">
           <thead>
               <tr>
                   <th>#</th>
@@ -9,7 +9,6 @@
                   <th>Rarity</th>
                   <th>Point</th>
                   <th>Image</th>
-                  <th>Action</th>
               </tr>
           </thead>
           <tbody >
@@ -32,12 +31,9 @@
             <td v-if="index === editIndex">
                 <img src="getImage(pet.pet_image.url)" alt="">
             </td>
-            <td>
-                <button type="text">DELETE</button>
-            </td>
             </tr>
           </tbody>
-      </d-table>
+      </table>
   </div>
 </template>
 

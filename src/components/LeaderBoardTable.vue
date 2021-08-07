@@ -1,7 +1,7 @@
 <template>
   <div> 
       <h3>Receive Leader Board</h3>
-      <d-table class="table table-striped">
+      <table class="table table-striped">
           <thead>
               <tr>
                 <th>Email</th>
@@ -16,10 +16,10 @@
                 <td v-if="(lead.point_type === 'Receive')">{{ lead.active_date.substring(0,10)}}</td>
                 </tr>
           </tbody>
-      </d-table>
+      </table>
       <div>
           <h3>Spend Leader Board</h3>
-          <d-table class="table table-striped">
+          <table class="table table-striped">
           <thead>
               <tr>
                 <th>Email</th>
@@ -35,7 +35,8 @@
                 <td v-if="(lead.point_type === 'Spend')">{{ lead.active_date.substring(0,10)}}</td>
                 </tr>
           </tbody>
-      </d-table>
+      </table>
+      
       </div>
   </div>
 </template>
@@ -63,6 +64,7 @@ export default {
             this.leaders = LeaderBoardApiStore.getters.leaders
         },
     }
+    
 }
 </script>
 
