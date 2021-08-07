@@ -11,7 +11,11 @@ export default new Vuex.Store({
         data: []
     },
     getters: {
-        pets: (state) => state.data,
+        profiles: (state) => state.data,
+        profile: (state) => (id) => {
+            // console.log("state.data.find(pf => pf.id === id)", state.data.find(pf => pf.id === id))
+            return state.data.find(pf => pf.id === id)
+        },
     },
     mutations: {
         fetch(state, { res }) {
@@ -20,19 +24,28 @@ export default new Vuex.Store({
         add(state, { payload }) {
             state.data.push(payload)
         },
+        edit(state, data) {
+            state.data = data
+            console.log("state.data", state.data)
+            console.log("asdasdas")
+        },
     },
     actions: {
         async fetchItem({ commit }) {
             let res = await Axios.get(api_endpoint + '/profiles')
             commit('fetch', { res })
         },
+        async fetchProfile({ commit }, id) {
+            let res = await Axios.get(api_endpoint + '/profiles/' + id)
+            console.log(res)
+            commit('fetch', { res })
+        },
         async addItem({ commit }, payload) {
             let url = api_endpoint + '/profiles'
             let body = {
-                pet_name: payload.pet_name,
-                pet_rarity: payload.pet_rarity,
-                pet_point: payload.pet_point,
-                pet_image: payload.pet_image
+                profile_user: payload.profile_user,
+                profile_point: payload.profile_point,
+                pet_collection: payload.pet_collection,
             }
             let res = await Axios.post(url, body)
             if (res.status === 200) {
@@ -41,22 +54,23 @@ export default new Vuex.Store({
                 console.error(res)
             }
         },
-        async editItem({ commit }, payload) {
-            let url = api_endpoint + '/profiles/' + payload.id
+        async editProfile({ commit }, payload) {
+            let url = api_endpoint + '/profiles/' + payload.profile_user
+            // console.log("payload.profile_point", payload.profile_point)
             let body = {
-                profile_user: 5,
-                profile_point: 2500,
-                pet_collection: [2, 3]
+                profile_user: payload.profile_user,
+                profile_point: payload.profile_point,
+                pet_collection: payload.pet_collection,
             }
+            // console.log("edit body", body)
             let res = await Axios.put(url, body)
             if (res.status === 200) {
-                commit('edit', payload.index, res.data)
-                console.log("commit('edit')", payload.index, res.data)
+                commit('edit', res.data)
+                // console.log("commit('edit')", res.data)
             } else {
                 console.error(res)
             }
         }
-
     },
     modules: {}
 })

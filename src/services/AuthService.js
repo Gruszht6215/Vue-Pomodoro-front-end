@@ -1,4 +1,5 @@
 import Axios from "axios"
+import ProfileApi from "@/store/ProfileApi";
 
 const auth_key = "auth-account"
 let auth = JSON.parse(localStorage.getItem(auth_key))
@@ -19,6 +20,10 @@ export default {
     },
     getJwt() {
         return jwt
+    },
+    getAuthData() {
+        console.log("asdasd")
+        console.log(auth)
     },
     async login({ email, password }) {
         try {
@@ -87,22 +92,26 @@ export default {
     async receivePoint(point) {
         try {
             let profile_id = auth.user.user_profile.id
-            let profile_point = auth.user.user_profile.profile_point
+
             let url_profile = api_endpoint + "/profiles/" + profile_id
             let url_leaderboard = api_endpoint + "/leaderboards"
 
             let res_profile = await Axios.get(url_profile)
-            let id_pet_collection = res_profile.data.pet_collection.map(it => it.id)
 
-            let totalPoint = parseInt(profile_point) + point
+            if (res_profile.status === 200) {
+                let id_pet_collection = res_profile.data.pet_collection.map(it => it.id)
+                let totalPoint = parseInt(res_profile.data.profile_point) + parseInt(point)
 
-            let body_profile = {
-                profile_user: profile_id,
-                profile_point: totalPoint,
-                pet_collection: id_pet_collection
+                let body_profile = {
+                    profile_user: profile_id,
+                    profile_point: totalPoint,
+                    pet_collection: id_pet_collection
+                }
+                await ProfileApi.dispatch("editProfile", body_profile)
+
+            } else {
+                console.log(res_profile)
             }
-
-            let res = await Axios.put(url_profile, body_profile)
 
             var d = new Date();
             //date format = "2021-08-06"
@@ -118,17 +127,13 @@ export default {
                 point_amount: point,
                 active_date: datestring,
             }
+
             let res_leaderboard = await Axios.post(url_leaderboard, body_leaderboard);
 
             if (res_leaderboard.status === 200) {
                 console.log(body_leaderboard)
             } else {
                 console.log(res_leaderboard.status)
-            }
-            if (res.status === 200) {
-                console.log(body_profile)
-            } else {
-                console.log(res.status)
             }
         }
         catch (error) {

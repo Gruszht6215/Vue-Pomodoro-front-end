@@ -1,30 +1,40 @@
 <template>
   <div>
-      <h1><i>Reward </i>🌷</h1>
-      <div class="fixed-boxUser">
-        <p>Username : ... <br>
-        My Point : ...</p>
-      </div>
-      <pet-info></pet-info>
-      <button class="fixed-btn" @click="logout()">Logout</button>
+    <h1><i>Reward </i>🌷</h1>
+    <div class="fixed-boxUser">
+      <p>
+        Username : ... <br />
+        My Point : ...
+      </p>
+    </div>
+    <pet-info></pet-info>
+    <button class="fixed-btn" @click="logout()">Logout</button>
   </div>
 </template>
 
 <script>
-import PetInfo from '@/components/reward/PetInfo'
+import PetInfo from "@/components/reward/PetInfo";
+import AuthUser from "@/store/AuthUser";
+
 export default {
-    components: {
-        PetInfo
+  data() {
+    return {
+      username: "",
+      point: "",
+    };
+  },
+  components: {
+    PetInfo,
+  },
+  methods: {
+    logout() {
+      console.log(AuthUser.getters.user);
     },
-    methods: {
-        logout() {
-            ///
-        }
-    }
-}
+  },
+};
 </script>
 <style lang="scss" scoped>
-.fixed-btn{
+.fixed-btn {
   position: fixed;
   bottom: 4%;
   right: 2%;
@@ -40,8 +50,8 @@ export default {
   font-weight: 900;
   color: #fff;
 }
-.fixed-btn:active{
-  box-shadow: 0  0;
+.fixed-btn:active {
+  box-shadow: 0 0;
 }
 .fixed-boxUser {
   position: fixed;

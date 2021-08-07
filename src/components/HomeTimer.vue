@@ -3,8 +3,10 @@
     <div id="timer">
       <div id="point">
         <h1>
+          Your Current Points = {{ profilePoint }} <br />
           {{ showPointReward }} <br />
           <p>Waiting For You!</p>
+          <!-- {{ isAuthen() }} <br /> -->
         </h1>
       </div>
       <div id="showTimer">
@@ -75,6 +77,8 @@
 
 <script>
 import AuthService from "@/services/AuthService";
+import AuthUser from "@/store/AuthUser";
+import ProfileApi from "@/store/ProfileApi";
 
 export default {
   data() {
@@ -91,7 +95,11 @@ export default {
       isRunning: false,
       isEdit: false,
       pointReward: 90,
+      profilePoint: 0,
     };
+  },
+  created() {
+    this.fetchProfile();
   },
   beforeMount() {
     window.addEventListener("beforeunload", this.preventNav);
@@ -108,6 +116,15 @@ export default {
     next();
   },
   methods: {
+    isAuthen() {
+      return AuthUser.getters.user.user_profile.profile_point;
+    },
+    async fetchProfile() {
+      await ProfileApi.dispatch("fetchItem", AuthUser.getters.user.id);
+      this.profilePoint = ProfileApi.getters.profile(
+        AuthUser.getters.user.id
+      ).profile_point;
+    },
     preventNav(event) {
       if (!this.isRunning) return;
       event.preventDefault();
@@ -115,14 +132,8 @@ export default {
       event.returnValue = "";
     },
     // test() {
-    //   var d = new Date();
-    //   var datestring =
-    //     d.getFullYear() +
-    //     "-" +
-    //     ("0" + (d.getMonth() + 1)).slice(-2) +
-    //     "-" +
-    //     ("0" + d.getDate()).slice(-2);
-    //   console.log(datestring);
+    //   AuthService.getAuthData();
+    //   console.log(this.profilePoint);
     // },
     startTimer() {
       this.pointCal(this.hour, this.minute, this.second);
@@ -156,9 +167,10 @@ export default {
             (this.pointReward > 1 ? " Points." : " Point."),
           "success"
         );
-        this.second = 0;
-        this.minute = 30;
+        //reset timer to default
         this.hour = 1;
+        this.minute = 30;
+        this.second = 0;
       } else {
         this.totalTime--;
         if (this.second === -1) {
@@ -172,14 +184,15 @@ export default {
         this.hour = Math.floor(this.totalTime / (60 * 60));
       }
     },
-    reachGoal() {
+    async reachGoal() {
       clearInterval(this.timer);
-      AuthService.receivePoint(this.pointReward);
+      await AuthService.receivePoint(this.pointReward);
+      this.fetchProfile();
       this.isRunning = false;
       this.$root.$emit("isTimerRunning", this.isRunning);
     },
     pointCal(h, m, s) {
-      console.log(this.pointReward);
+      // this.pointReward = 11;
       this.pointReward =
         Math.floor(s * 0.1) + Math.floor(m * 0.8) + Math.floor(h * 66);
     },
