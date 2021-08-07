@@ -4,7 +4,7 @@
     <div class="fixed-boxUser">
       <p>
         Username : ... <br />
-        My Point : ...
+        My Point : ... points
       </p>
     </div>
     <pet-info></pet-info>
@@ -64,5 +64,8 @@ export default {
   width: fit-content;
   height: fit-content;
   color: rgb(255, 255, 255);
+}
+p {
+  text-align: left;
 }
 </style>
