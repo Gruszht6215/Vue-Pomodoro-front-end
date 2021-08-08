@@ -39,7 +39,7 @@ export default {
   position: fixed;
   bottom: 4%;
   right: 2%;
-  background: #f39aff;
+  background: #fbc1ad;
   width: 130px;
   height: 40px;
   text-align: center;

@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class="body">
     <div id="timer">
       <div id="point">
+        <div id="box">
+          Your Current Point : {{ profilePoint }} points
+        </div>
         <h1>
-          Your Current Points = {{ profilePoint }} <br />
           {{ showPointReward }} <br />
           <p>Waiting For You!</p>
           <!-- {{ isAuthen() }} <br /> -->
@@ -13,6 +15,7 @@
         <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
       </div>
       <div>
+        <br>
         <button
           @click="startTimer"
           v-if="isRunning === false && isEdit === false"
@@ -25,7 +28,7 @@
           <label for="timerEditForm">Set Timer</label>
           <div id="inputEditForm">
             <label>
-              Hour (0 - 23):
+              Hour (0 - 23) :
               <input
                 type="number"
                 id="timerEditForm"
@@ -36,7 +39,7 @@
               />
             </label>
             <label>
-              Minute (0 - 59):
+              Minute (0 - 59) :
               <input
                 type="number"
                 id="timerEditForm"
@@ -47,7 +50,7 @@
               />
             </label>
             <label>
-              Second (0 - 59):
+              Second (0 - 59) :
               <input
                 type="number"
                 id="timerEditForm"
@@ -246,20 +249,28 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only scoped lang="scss"-->
 <style scoped lang="scss">
+.body {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  align-content: center;
+  background-attachment: fixed;
+  background: #e5e1e0;
+}
 #timer {
-  background: grey;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: 20px auto;
-  width: 600px;
-  height: 900px;
-  left: 50%;
-  top: 50%;
+  margin: 10px auto;
+  width: 100%;
+  height: 775px;
 }
 #timerEditForm {
-  width: 100px;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  width: 120px;
 }
 #inputEditForm {
   display: flex;
@@ -268,19 +279,46 @@ export default {
   justify-content: center;
 }
 #showTimer {
-  background-color: pink;
+  position: relative;
+  background-color: #ffdf6f;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid red 2px;
   border-radius: 50%;
   width: 210px;
   height: 210px;
 }
 #point {
   // margin-bottom: 100px;
-  position: absolute;
-  top: 220px;
+  position: relative;
+  padding: 20px;
+}
+h1 {
+  font-size: 27px;
+}
+#box {
+  color: #ffffff;
+  margin: 20px;
+  border-radius: 25px;
+  background: #fbc1ad;
+  padding: 20px;
+  width: fit-content;
+  height: fit-content;
+}
+button,
+.open-button {
+  margin: 5px;
+  text-align: center;
+  border-radius: 10px;
+  background: #fbc1ad;
+  cursor: pointer;
+}
+
+.open-button {
+  color: white;
+  border: none;
+  opacity: 0.8;
+  position: fixed;
 }
 </style>

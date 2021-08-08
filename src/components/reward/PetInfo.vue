@@ -40,7 +40,7 @@
       </div>
 
       <div v-if="!isAdmin()">
-        <button @click="decreaseUserpoint(pet.id, 100)">Purchase</button>
+        <button @click="decreaseUserPoint(pet.id)">Purchase</button>
         <!--สมมติ points-->
       </div>
       <div v-if="isAdmin()">
@@ -151,32 +151,36 @@ export default {
         swal("Add Failed", res.message, "error");
       }
     },
-    calculateUserPoint(pet_id, user_point) {
-      this.pets.forEach(function (pet) {
-        if (pet_id === pet.id) {
-          user_point -= parseInt(pet.pet_point);
-        }
-      });
-      return user_point;
-    },
-    decreaseUserPoint(pet_id, user_point) {
+    // calculateUserPoint(pet_id) {
+    //   this.pets.forEach(function (pet) {
+    //     if (pet_id === pet.id) {
+    //       user_point -= parseInt(pet.pet_point);
+    //     }
+    //   });
+    //   return user_point;
+    // },
+    decreaseUserPoint(pet_id) {
       //ลด point ของ user
-      swal({
-        title: "Are you sure to buy this pet?",
-        text: "If you click, You will receive a lovely pet!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then((willPurchase) => {
-        if (willPurchase) {
-          calculateUserPoint(pet_id, user_point);
-          swal("You received a lovely PET!", {
-            icon: "success",
-          });
-        } else {
-          swal("This pet so sad to you.");
-        }
-      });
+      // swal({
+      //   title: "Are you sure to buy this pet?",
+      //   text: "If you click, You will receive a lovely pet!",
+      //   icon: "warning",
+      //   buttons: true,
+      //   dangerMode: true,
+      // }).then((willPurchase) => {
+      //   if (willPurchase) {
+      //     // calculateUserPoint(pet_id);
+      //     swal("You received a lovely PET!", {
+      //       icon: "success",
+      //     });
+      //     console.log(pet_id)
+      //     return pet_id
+      //   } else {
+      //     swal("This pet so sad to you.");
+      //   }
+      // });
+      console.log(pet_id)
+      return pet_id;
     },
     // addPetToUser() {
     //   //เพิ่มสัตว์เลี้ยงให้ user
@@ -228,55 +232,14 @@ button,
 .open-button {
   text-align: center;
   border-radius: 10px;
-  background: #ffbbf4;
+  background: #fbc1ad;
   cursor: pointer;
 }
-
 .open-button {
   color: white;
   border: none;
   opacity: 0.8;
   position: fixed;
-}
-.form-popup {
-  display: none;
-  position: fixed;
-  top: 10px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-}
-.form-container {
-  max-width: 300px;
-  padding: 10px;
-  background-color: white;
-}
-.form-container input[type="text"] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-.form-container input[type="text"]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-.form-container .btn {
-  background-color: #04aa6d;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom: 10px;
-  opacity: 0.8;
-}
-.form-container .cancel {
-  background-color: red;
-}
-.form-container .btn:hover,
-.open-button:hover {
-  opacity: 1;
 }
 input {
   width: 100px;

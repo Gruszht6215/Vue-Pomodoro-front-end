@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="body">
+    <br>
+    <br>
+    <br>
     <form @submit.prevent="login">
       <div>
         <label for="email">Email</label>

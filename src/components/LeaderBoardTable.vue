@@ -1,5 +1,6 @@
 <template>
-  <div> 
+  <div class="body">
+      <div class="distance">
       <h3>Receive Leader Board</h3>
       <table class="table table-striped">
           <thead>
@@ -39,6 +40,7 @@
       
       </div>
   </div>
+  </div> 
 </template>
 
 <script scr="./src/tablesort.js">
@@ -68,10 +70,23 @@ export default {
 }
 </script>
 
-<style>
-
-h3{
+<style lang="scss">
+.body {
+    width: 100%;
     display: block;
     text-align: center;
+    background: #ffffff;
 }
-</style>
+.distance {
+    margin-top: 50px;
+}
+h3 {
+    padding: 20px;
+}
+table,td,th, tr {
+    background-color: #e5e1e0;
+}
+table {
+    border-collapse: collapse;
+}
+</style>>
