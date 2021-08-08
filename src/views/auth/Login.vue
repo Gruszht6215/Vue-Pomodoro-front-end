@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="distance">
     <form @submit.prevent="login">
       <div>
         <label for="email">Email</label>

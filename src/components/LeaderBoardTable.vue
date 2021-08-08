@@ -78,7 +78,8 @@ export default {
     background: #ffffff;
 }
 .distance {
-    margin-top: 50px;
+    margin-top: 150px;
+    text-align: center;
 }
 h3 {
     padding: 20px;

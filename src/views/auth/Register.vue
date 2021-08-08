@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="distance">
     <h1>Register</h1>
     <form @submit.prevent="register">
       <div>

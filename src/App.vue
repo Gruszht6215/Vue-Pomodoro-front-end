@@ -40,7 +40,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #000000;
-  background-color: #e5e1e0;
+  background-color: #ffffff;
 }
 #nav {
   top: 0;
@@ -73,5 +73,31 @@ li a:hover:not(.active) {
   padding: 14px;
   width: 100%;
   height: fit-content;
+}
+v-b-toggle.sidebar-border{
+  color: #42b983;
+}
+.route{
+  p{
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;   
+  }
+}
+.menuButton{
+  width: 280px;
+}
+.login{
+  margin-top: 360px;
+  display: block;
+  
+}
+.logout{
+  display: block;
+  margin-top: 10px;
+
 }
 </style>

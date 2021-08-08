@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="distance">
       <table class="table table-striped">
           <thead>
               <tr>

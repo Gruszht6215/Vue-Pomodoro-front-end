@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="distance">
       <h2>Pet Collection</h2>
       <table class="table table-striped">
           <thead>

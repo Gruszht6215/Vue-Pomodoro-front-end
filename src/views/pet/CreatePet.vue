@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="distance">
     <!-- <button @click="onUpload">Upload!</button> -->
 
     <form @submit.prevent="onSubmit">
