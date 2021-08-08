@@ -17,7 +17,7 @@ export default new Vuex.Store({
         //     return state.data.find(pf => pf.id === id)
         // },
         profile: (state) => (username_auth) => {
-            console.log("username_auth", username_auth)
+            // console.log("username_auth", username_auth)
             for (let i = 0; i < state.data.length; i++) {
                 if (state.data[i].profile_user.username == username_auth) {
                     return state.data[i]
@@ -74,6 +74,20 @@ export default new Vuex.Store({
             if (res.status === 200) {
                 commit('edit', res.data)
                 console.log("commit('edit')", res.data)
+            } else {
+                console.error(res)
+            }
+        },
+        async decreasePoint({ commit }, payload) {
+            let url = api_endpoint + '/profiles/' + payload.profile_id
+            // console.log("payload.profile_point", payload.profile_user)
+            let body = {
+                profile_point: payload.profile_point,
+            }
+
+            let res = await Axios.put(url, body)
+            if (res.status === 200) {
+                // commit('edit', res.data)
             } else {
                 console.error(res)
             }
