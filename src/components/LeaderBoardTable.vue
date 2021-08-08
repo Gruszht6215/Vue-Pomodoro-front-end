@@ -1,28 +1,10 @@
 <template>
-<<<<<<< HEAD
-  <div>
-      <!-- <input type="date" v-model="mydate1">
-      <input type="date" v-model="mydate2"> -->
-      <div class="filter">
-          Date filer :
-      <date-picker v-model="mydate1" placeholder="Start date"></date-picker>
-      To
-      <date-picker v-model="mydate2" placeholder="End date"></date-picker>
-     <button type="button" @click="save">Filter</button>
-      </div>
-      <div class="receive">
-        <h3>Receive Leader Board</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-=======
   <div class="body">
       <div class="distance">
       <h3>Receive Leader Board</h3>
       <table class="table table-striped">
           <thead>
               <tr>
->>>>>>> origin/pangprapawarin
                 <th>Email</th>
                 <th>Received Point</th>
                 <th>Date</th>

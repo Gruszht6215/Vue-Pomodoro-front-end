@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Axios from "axios"
 import AuthService from '@/services/AuthService'
 
-let api_endpoint = "http://localhost:1337"
+let api_endpoint = "http://localhost:3000"
 
 Vue.use(Vuex)
 
@@ -34,10 +34,7 @@ export default new Vuex.Store({
             state.data.push(payload)
         },
         edit(state, data) {
-            console.log(state.data)
             state.data = data
-            console.log(state.data)
-
             // console.log("state.data", state.data)
         },
     },

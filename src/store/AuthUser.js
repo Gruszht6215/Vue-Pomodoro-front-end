@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AuthService from '../services/AuthService'
+import AuthService from '@/services/AuthService'
 
 Vue.use(Vuex)
 

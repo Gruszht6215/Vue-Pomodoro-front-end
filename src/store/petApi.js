@@ -4,7 +4,7 @@ import Axios from "axios"
 import AuthService from '@/services/AuthService'
 //import PetApiJson from '@/store/PetApiJson.json'
 
-let api_endpoint = "http://localhost:1337"
+let api_endpoint = "http://localhost:3000"
 
 Vue.use(Vuex)
 

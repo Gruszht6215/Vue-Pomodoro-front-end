@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <h1><i>Reward </i>🌷</h1>
     <div class="fixed-boxUser">
       <p>
