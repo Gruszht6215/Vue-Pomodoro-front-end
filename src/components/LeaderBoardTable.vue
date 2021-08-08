@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div>
       <!-- <input type="date" v-model="mydate1">
       <input type="date" v-model="mydate2"> -->
@@ -14,6 +15,14 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+=======
+  <div class="body">
+      <div class="distance">
+      <h3>Receive Leader Board</h3>
+      <table class="table table-striped">
+          <thead>
+              <tr>
+>>>>>>> origin/pangprapawarin
                 <th>Email</th>
                 <th>Received Point</th>
                 <th>Date</th>
@@ -62,6 +71,7 @@
             </table>
       </div>
   </div>
+  </div> 
 </template>
 
 <script scr="./src/tablesort.js">
@@ -141,4 +151,4 @@
     margin-top: 20px;
     margin-bottom: 20px ;
 }
-</style>
+</style>>

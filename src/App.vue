@@ -1,24 +1,17 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">HOME</router-link>
-      <div class="route">
-        <b-button   style="background-color:white;color:black;display:block;" v-b-toggle.sidebar-1>Profile</b-button>
-        <b-sidebar id="sidebar-1" title="Profile" shadow>
-        <div class="px-3 py-2">
-        <div v-if="this.isTimerRunning === false">
-        <p><b-button class="menuButton" variant="outline-danger"><router-link to="/" style="text-decoration: none">HOME</router-link></b-button></p>
-        <p><b-button class="menuButton" variant="outline-danger"><router-link to="/reward" style="text-decoration: none">REWARD</router-link></b-button></p>
-        <p><b-button class="menuButton" variant="outline-danger"><router-link to="/profile" style="text-decoration: none">PROFILE</router-link></b-button></p>
-        <p><b-button class="menuButton" variant="outline-danger"><router-link to="/leaderboard" style="text-decoration: none">LEADER BOARD</router-link></b-button></p>
-        <p class="register"><b-button class="menuButton" variant="outline-danger"><router-link to="/register" style="text-decoration: none">REGISTER</router-link></b-button></p>
-        <p class="login"><b-button class="menuButton" variant="outline-danger"><router-link to="/login" style="text-decoration: none">LOGIN</router-link></b-button></p>
-        <p class="logout"><b-button class="menuButton" variant="outline-danger"><router-link to="/logout" style="text-decoration: none">LOGOUT</router-link></b-button></p>
+      <div v-if="this.isTimerRunning === false">
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/leaderboard">Leaderboard</router-link></li>
+        <li><router-link to="/reward">Reward</router-link></li>
+        <li><router-link to="/logout">Logout</router-link></li>
+        <li><router-link to="/register">Register</router-link></li>
+        <li><router-link to="/profile">Profile</router-link></li>
+        <li><router-link to="/createPet">Create Pet</router-link></li>
+        <li style="float:right" class="active"><router-link to="/login">Login</router-link></li>
       </div>
-        </div>
-        </b-sidebar>
-      </div>
-      <div v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
+      <div class="focus" v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
     </div>
     <router-view />
   </div>
@@ -46,21 +39,40 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-
+  color: #000000;
+  background-color: #e5e1e0;
 }
-
 #nav {
-  padding: 10px;
-  background-color: pink;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: rgb(0, 0, 0);
-    }
-  }
+  top: 0;
+  width: 100%;
+  position: fixed;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #7dabd0;
+}
+li {
+  float: left;
+}
+li a {
+  display: block;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+li a:hover:not(.active) {
+  background-color: #cfe7ea;
+}
+.active {
+  background-color: #ffdf6f;
+}
+.focus {
+  color: #ffffff;
+  padding: 14px;
+  width: 100%;
+  height: fit-content;
 }
 v-b-toggle.sidebar-border{
   color: #42b983;

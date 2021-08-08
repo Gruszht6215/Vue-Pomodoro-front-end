@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class="body">
     <div id="timer">
       <div id="point">
+        <div id="box">
+          Your Current Point : {{ profilePoint }} points
+        </div>
         <h1>
-          Your Current Points = {{ profilePoint }} <br />
           {{ showPointReward }} <br />
           <p>Waiting For You!</p>
           <!-- {{ isAuthen() }} <br /> -->
@@ -13,6 +15,7 @@
         <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
       </div>
       <div>
+        <br>
         <button
           @click="startTimer"
           v-if="isRunning === false && isEdit === false"
@@ -25,7 +28,7 @@
           <label for="timerEditForm">Set Timer</label>
           <div id="inputEditForm">
             <label>
-              Hour (0 - 23):
+              Hour (0 - 23) :
               <input
                 type="number"
                 id="timerEditForm"
@@ -36,7 +39,7 @@
               />
             </label>
             <label>
-              Minute (0 - 59):
+              Minute (0 - 59) :
               <input
                 type="number"
                 id="timerEditForm"
@@ -47,7 +50,7 @@
               />
             </label>
             <label>
-              Second (0 - 59):
+              Second (0 - 59) :
               <input
                 type="number"
                 id="timerEditForm"
@@ -101,19 +104,10 @@ export default {
   created() {
     this.fetchProfile();
   },
-  beforeMount() {
-    window.addEventListener("beforeunload", this.preventNav);
-    this.$once("hook:beforeDestroy", () => {
-      window.removeEventListener("beforeunload", this.preventNav);
-    });
-  },
-  beforeRouteLeave(to, from, next) {
-    if (this.isRunning) {
-      if (!window.confirm("Leave without saving?")) {
-        return;
-      }
+  mounted() {
+    if (!this.isAuthen()) {
+      swal("Restricted Area", "Please, login first", "warning");
     }
-    next();
   },
   mounted(){
     if(!this.isAuthen()){
@@ -123,23 +117,19 @@ export default {
   },
   methods: {
     isAuthen() {
-      return AuthUser.getters.user.user_profile.profile_point;
+      return AuthUser.getters.isAuthen;
     },
     async fetchProfile() {
       await ProfileApi.dispatch("fetchItem", AuthUser.getters.user.id);
+
       this.profilePoint = ProfileApi.getters.profile(
-        AuthUser.getters.user.id
+        AuthUser.getters.user.username
       ).profile_point;
     },
-    preventNav(event) {
-      if (!this.isRunning) return;
-      event.preventDefault();
-      // Chrome requires returnValue to be set.
-      event.returnValue = "";
-    },
     // test() {
-    //   AuthService.getAuthData();
-    //   console.log(this.profilePoint);
+    //   // AuthService.getAuthData();
+    //   console.log(AuthUser.getters.user.username);
+    //   console.log(AuthUser.getters.user);
     // },
     startTimer() {
       this.pointCal(this.hour, this.minute, this.second);
@@ -192,8 +182,12 @@ export default {
     },
     async reachGoal() {
       clearInterval(this.timer);
-      await AuthService.receivePoint(this.pointReward);
+      let currentProfileAccountId = ProfileApi.getters.profile(
+        AuthUser.getters.user.username
+      ).id;
+      await AuthService.receivePoint(currentProfileAccountId, this.pointReward);
       this.fetchProfile();
+
       this.isRunning = false;
       this.$root.$emit("isTimerRunning", this.isRunning);
     },
@@ -261,22 +255,28 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only scoped lang="scss"-->
 <style scoped lang="scss">
+.body {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  align-content: center;
+  background-attachment: fixed;
+  background: #e5e1e0;
+}
 #timer {
-  background: pink;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: 20px auto;
-  width: 600px;
-  height: 700px;
-  left: 50%;
-  top: 50%;
-  
+  margin: 10px auto;
+  width: 100%;
+  height: 775px;
 }
 #timerEditForm {
-  
-  width: 100px;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  width: 120px;
 }
 #inputEditForm {
   display: flex;
@@ -285,13 +285,12 @@ export default {
   justify-content: center;
 }
 #showTimer {
-  background-color: #8c0724;
-  margin-top: 120px;
+  position: relative;
+  background-color: #ffdf6f;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
   border-radius: 50%;
   width: 210px;
   height: 210px;
@@ -299,7 +298,34 @@ export default {
 }
 #point {
   // margin-bottom: 100px;
-  position: absolute;
-  top: 150px;
+  position: relative;
+  padding: 20px;
+}
+h1 {
+  font-size: 27px;
+}
+#box {
+  color: #ffffff;
+  margin: 20px;
+  border-radius: 25px;
+  background: #fbc1ad;
+  padding: 20px;
+  width: fit-content;
+  height: fit-content;
+}
+button,
+.open-button {
+  margin: 5px;
+  text-align: center;
+  border-radius: 10px;
+  background: #fbc1ad;
+  cursor: pointer;
+}
+
+.open-button {
+  color: white;
+  border: none;
+  opacity: 0.8;
+  position: fixed;
 }
 </style>
