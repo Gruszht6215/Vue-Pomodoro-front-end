@@ -3,75 +3,79 @@
     <button v-if="isAdmin()" class="open-button" @click="openAddForm()">
       Add new pet
     </button>
-    <h2>Hi, {{ profileName }}</h2>
-    <h3>you have {{ showProfilePoint }} points</h3>
+    <div v-if="!isAdmin()">
+      <h2>Hi, {{ profileName }}</h2>
+      <h3>you have {{ showProfilePoint }} points</h3>
+    </div>
     <div
       class="column"
       id="box"
       v-for="(pet, index) in pets"
       v-bind:key="index"
     >
-      <div v-if="index !== editIndex">
-        <img :src="getImage(pet.pet_image.url)" />
-      </div>
-      <!-- <div v-if="index === editIndex"> 
+      <div v-if="!isDeleted(pet.pet_name)">
+        <div v-if="index !== editIndex">
+          <img :src="getImage(pet.pet_image.url)" />
+        </div>
+        <!-- <div v-if="index === editIndex"> 
         เปลี่ยนรูปภาพโดยที่รูปเดิมยังอยู่
       </div> -->
-      <div v-if="index !== editIndex">
-        <h2>
-          <i>{{ pet.pet_name }}</i>
-        </h2>
-      </div>
-      <div v-if="index !== editIndex">
-        <p>Rarity : {{ pet.pet_rarity }}<br /></p>
-      </div>
-      <div v-if="index !== editIndex">
-        <p>Point : {{ pet.pet_point }} points</p>
-      </div>
-
-      <div v-if="index === editIndex">
-        <form @submit.prevent="onSubmitEdit">
-          <div v-if="index === editIndex">
-            <label for="pet_name">Name : </label>
-            <input type="text" v-model="form.pet_name" />
-          </div>
-
-          <label for="pet_name">Rarity : </label>
-          <select v-model="form.pet_rarity">
-            <option disabled value="">Please select one</option>
-            <option>Legendary</option>
-            <option>Epic</option>
-            <option>Rare</option>
-            <option>Common</option>
-          </select>
-
-          <div v-if="index === editIndex">
-            <label for="pet_name">Point :</label>
-            <input type="number" v-model="form.pet_point" />
-          </div>
-
-          <input type="file" @change="onFileChanged" />
-
-          <div v-if="index === editIndex">
-            <button>Update</button>
-            <button @click="closeForm()">Cancel</button>
-          </div>
-        </form>
-      </div>
-
-      <div v-if="!isAdmin() && index !== editIndex">
-        <div v-if="!isPurchased(pet.id)">
-          <button @click="purchase(pet)">Purchase</button>
-        </div>
-        <div v-if="isPurchased(pet.id)">
-          <h3>purchased</h3>
-        </div>
-      </div>
-
-      <div v-if="!isAdmin()">
         <div v-if="index !== editIndex">
-          <button @click="openForm(index, pet)">Edit</button>
-          <button @click="deleteItem()">Delete</button>
+          <h2>
+            <i>{{ pet.pet_name }}</i>
+          </h2>
+        </div>
+        <div v-if="index !== editIndex">
+          <p>Rarity : {{ pet.pet_rarity }}<br /></p>
+        </div>
+        <div v-if="index !== editIndex">
+          <p>Point : {{ pet.pet_point }} points</p>
+        </div>
+
+        <div v-if="index === editIndex">
+          <form @submit.prevent="onSubmitEdit">
+            <div v-if="index === editIndex">
+              <label for="pet_name">Name : </label>
+              <input type="text" v-model="form.pet_name" />
+            </div>
+
+            <label for="pet_name">Rarity : </label>
+            <select v-model="form.pet_rarity">
+              <option disabled value="">Please select one</option>
+              <option>Legendary</option>
+              <option>Epic</option>
+              <option>Rare</option>
+              <option>Common</option>
+            </select>
+
+            <div v-if="index === editIndex">
+              <label for="pet_name">Point :</label>
+              <input type="number" v-model="form.pet_point" />
+            </div>
+
+            <input type="file" @change="onFileChanged" />
+
+            <div v-if="index === editIndex">
+              <button>Update</button>
+              <button @click="closeForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <div v-if="!isAdmin() && index !== editIndex">
+          <div v-if="!isPurchased(pet.id)">
+            <button @click="purchase(pet)">Purchase</button>
+          </div>
+          <div v-if="isPurchased(pet.id)">
+            <h3>purchased</h3>
+          </div>
+        </div>
+
+        <div v-if="isAdmin()">
+          <div v-if="index !== editIndex">
+            <button @click="openForm(index, pet)">Edit</button>
+            <button @click="deleteItem(index, pet)">Delete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -127,6 +131,12 @@ export default {
       }
       return false;
     },
+    isDeleted(pet_name) {
+      if (pet_name.substring(0, 7) === "@delete") {
+        return true;
+      }
+      return false;
+    },
     // Testing() {
     //   this.isPurchased(7);
     //   console.log(this.profileCollection);
@@ -174,8 +184,17 @@ export default {
     openAddForm() {
       this.$router.push("/createPet");
     },
-    async deleteItem() {
-      
+    async deleteItem(index, pet) {
+      console.log(pet);
+      this.editIndex = index;
+      let payload = {
+        index: this.editIndex,
+        id: pet.id,
+        pet_name: "@delete" + pet.pet_name,
+      };
+      await PetApi.dispatch("deleteItem", payload);
+      swal("Delete Success!", "", "success");
+      this.closeForm();
     },
 
     onFileChanged(event) {
