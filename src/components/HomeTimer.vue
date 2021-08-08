@@ -247,7 +247,7 @@ export default {
   overflow: hidden;
   align-content: center;
   background-attachment: fixed;
-  background: #e5e1e0;
+  background: #ffffff;
 }
 #timer {
   display: flex;
@@ -259,6 +259,7 @@ export default {
   height: 775px;
 }
 #timerEditForm {
+  background-color: #e5e1e0;
   border: none;
   border-radius: 10px;
   margin: 5px;
@@ -290,7 +291,7 @@ h1 {
   font-size: 27px;
 }
 #box {
-  color: #ffffff;
+  color: #000000;
   margin: 20px;
   border-radius: 25px;
   background: #fbc1ad;

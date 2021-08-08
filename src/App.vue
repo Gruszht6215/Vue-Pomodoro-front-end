@@ -5,11 +5,11 @@
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/leaderboard">Leaderboard</router-link></li>
         <li><router-link to="/reward">Reward</router-link></li>
-        <li><router-link to="/logout">Logout</router-link></li>
-        <li><router-link to="/register">Register</router-link></li>
         <li><router-link to="/profile">Profile</router-link></li>
         <li><router-link to="/createPet">Create Pet</router-link></li>
         <li style="float:right" class="active"><router-link to="/login">Login</router-link></li>
+        <li style="float:right" class="active"><router-link to="/logout">Logout</router-link></li>
+        <li style="float:right" class="active"><router-link to="/register">Register</router-link></li>
       </div>
       <div class="focus" v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
     </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import AuthUser from "@/store/AuthUser";
 export default {
   data() {
     return {
@@ -29,7 +30,11 @@ export default {
       this.isTimerRunning = timerStatus;
     });
   },
-  methods: {},
+  methods: {
+    isAuthen() {
+      return AuthUser.getters.isAuthen;
+    },
+  },
 };
 </script>
 
@@ -73,9 +78,6 @@ li a:hover:not(.active) {
   padding: 14px;
   width: 100%;
   height: fit-content;
-}
-v-b-toggle.sidebar-border{
-  color: #42b983;
 }
 .route{
   p{

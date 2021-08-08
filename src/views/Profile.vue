@@ -18,6 +18,17 @@ export default {
     ProfileCollectionPetTable, 
     ProfileRewardHistoryTable
   },
+  mounted() {
+    if (!this.isAuthen()) {
+      swal("Restricted Area", "Please, login first", "warning");
+      this.$router.push("/login");
+    }
+  },
+  methods: {
+    isAuthen() {
+      return AuthUser.getters.isAuthen;
+    },
+  }
 }
 </script>
 

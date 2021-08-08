@@ -1,5 +1,4 @@
 <template>
-  <div class="body">
       <div class="distance">
       <h3>Receive Leader Board</h3>
       <table class="table table-striped">
@@ -40,7 +39,6 @@
       
       </div>
   </div>
-  </div> 
 </template>
 
 <script scr="./src/tablesort.js">

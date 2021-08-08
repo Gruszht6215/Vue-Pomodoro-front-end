@@ -3,18 +3,18 @@
     <h1>Register</h1>
     <form @submit.prevent="register">
       <div>
-        <label for="username">Username</label>
-        <input v-model="form.username" type="text" placeholder="username" />
+        <label for="username">Username : </label>
+        <input v-model="form.username" type="text" placeholder=" username" />
       </div>
 
       <div>
-        <label for="email">Email</label>
-        <input v-model="form.email" type="text" placeholder="email" />
+        <label for="email">Email :</label>
+        <input v-model="form.email" type="text" placeholder=" email" />
       </div>
 
       <div>
-        <label for="password">Password</label>
-        <input v-model="form.password" type="password" />
+        <label for="password">Password :</label>
+        <input v-model="form.password" type="password" placeholder=" password" />
       </div>
 
       <div>
@@ -50,6 +50,19 @@ export default {
   },
 };
 </script>
-
-<style>
+<style lang="scss" scoped>
+input {
+  background-color: #e5e1e0;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  width: 150px;
+}
+button {
+  margin: 5px;
+  text-align: center;
+  border-radius: 10px;
+  background: #fbc1ad;
+  cursor: pointer;
+}
 </style>

@@ -1,6 +1,8 @@
 <template>
   <div class="row">
-    <button v-if="isAdmin()" class="open-button" @click="openEditForm()">Add new pet</button>
+    <div>
+      <button v-if="isAdmin()" class="open-button" @click="openEditForm()">Add new pet</button>
+    </div>
     <div class="column" id="box" v-for="(pet, index) in pets" v-bind:key="index">
       <div v-if="index !== editIndex"> 
         <img :src="getImage(pet.pet_image.url)" />
@@ -14,11 +16,11 @@
       </div>
       <div v-if="index === editIndex"> 
         <label for="pet_name">Name : </label>
-        <input type="text" v-model="form.pet_name" />
+        <input type="text" v-model="form.pet_name" id="input-default"/>
       </div>
 
       <div v-if="index !== editIndex"> 
-        <p>Rarity : {{ pet.pet_rarity }}<br/></p>
+        <p>Rarity : {{ pet.pet_rarity }}</p>
       </div>
       <div v-if="index === editIndex"> 
         <label for="pet_name">Rarity : </label>
@@ -36,7 +38,7 @@
       </div>
       <div v-if="index === editIndex"> 
         <label for="pet_name">Point : </label>
-        <input type="number" v-model="form.pet_point">
+        <input type="number" v-model="form.pet_point" id="input-default">
       </div>
 
       <div v-if="!isAdmin()">
@@ -115,7 +117,7 @@ export default {
       };
     },
     openEditForm() {
-      this.router.navigateByUrl('/createPet')
+      this.$router.push("/createPet");
     },
     async deleteItem() {},
     async editItem() {
@@ -204,14 +206,16 @@ export default {
 .column {
   float: left;
   width: 25%;
-  padding: 10px;
+  margin: 10px;
 }
 .row:after {
+  align-content: center;
   display: flex;
   clear: both;
 }
 #box {
   margin: 20px;
+  margin-left: 50px;
   border-radius: 25px;
   background: #f6ffea;
   padding: 20px;
@@ -230,18 +234,26 @@ img {
 }
 button,
 .open-button {
+  margin: 5px;
   text-align: center;
   border-radius: 10px;
   background: #fbc1ad;
   cursor: pointer;
 }
-.open-button {
-  color: white;
+#input-default {
   border: none;
-  opacity: 0.8;
-  position: fixed;
+  border-radius: 10px;
+  margin: 5px;
+  width: 150px;
 }
-input {
-  width: 100px;
+button, #input-image {
+  margin: 5px;
+  text-align: center;
+  border-radius: 10px;
+  background: #fbc1ad;
+  cursor: pointer;
+}
+select {
+  margin-left: 5px;
 }
 </style>

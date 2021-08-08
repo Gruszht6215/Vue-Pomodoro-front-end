@@ -1,13 +1,14 @@
 <template>
   <div class="distance">
+    <h1>Login</h1>
     <form @submit.prevent="login">
       <div>
-        <label for="email">Email</label>
-        <input v-model="form.email" type="text" placeholder="email" />
+        <label for="email">Email : </label>
+        <input v-model="form.email" type="text" placeholder=" email" />
       </div>
       <div>
-        <label for="password">Password</label>
-        <input v-model="form.password" type="password" placeholder="password" />
+        <label for="password">Password : </label>
+        <input v-model="form.password" type="password" placeholder=" password" />
       </div>
       <div>
         <button>Login</button>
@@ -45,5 +46,19 @@ export default {
 <style lang="scss" scoped>
 .body {
   margin-bottom: 20px;
+}
+input {
+  background-color: #e5e1e0;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  width: 150px;
+}
+button {
+  margin: 5px;
+  text-align: center;
+  border-radius: 10px;
+  background: #fbc1ad;
+  cursor: pointer;
 }
 </style>
