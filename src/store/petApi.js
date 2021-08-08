@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from "axios"
+import swal from 'sweetalert'
 
 //import PetApiJson from '@/store/PetApiJson.json'
 
-let api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:3000"
+let api_endpoint = "http://localhost:1337"
 
 Vue.use(Vuex)
 
@@ -34,15 +35,26 @@ export default new Vuex.Store({
         },
         async addItem({ commit }, payload) {
             let url = api_endpoint + '/pets'
-            let body = {
-                pet_name: payload.pet_name,
-                pet_rarity: payload.pet_rarity,
-                pet_point: payload.pet_point,
-                pet_image: payload.pet_image
-            }
-            let res = await Axios.post(url, body)
-            if (res.status === 200) {
-                commit('add', res.data)
+            let upload_url = api_endpoint + '/upload'
+
+            let res_upload = await Axios.post(upload_url, payload.pet_image)
+            if (res_upload.status === 200) {
+                const imageId = res_upload.data[0].id;
+
+                let body = {
+                    pet_name: payload.pet_name,
+                    pet_rarity: payload.pet_rarity,
+                    pet_point: payload.pet_point,
+                    pet_image: imageId,
+                    profile_owner: []
+                }
+                let res = await Axios.post(url, body)
+                if (res.status === 200) {
+                    commit('add', res.data)
+                    swal("Upload Success!", "", "success")
+                } else {
+                    console.error(res)
+                }
             } else {
                 console.error(res)
             }

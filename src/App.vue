@@ -8,7 +8,8 @@
         <router-link to="/logout">Logout</router-link> |
         <router-link to="/register">Register</router-link> |
         <router-link to="/profile">Profile</router-link> |
-        <router-link to="/leaderboard">Leader Board</router-link>
+        <router-link to="/leaderboard">Leader Board</router-link> |
+        <router-link to="/createPet">Create Pet</router-link> |
       </div>
       <div v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
     </div>

@@ -103,7 +103,7 @@ export default {
   },
   mounted() {
     if (!this.isAuthen()) {
-      swal("Restrited Area", "Please, login first", "warning");
+      swal("Restricted Area", "Please, login first", "warning");
     }
   },
   methods: {

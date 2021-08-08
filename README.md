@@ -1,4 +1,4 @@
-# project442_qanda_front-end
+# project442_midterm_front-end
 
 ## Project setup
 ```
