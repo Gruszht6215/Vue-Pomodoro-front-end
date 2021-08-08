@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <h1><i>Reward </i>🌷</h1>
     <div class="fixed-boxUser">
       <p>
@@ -35,6 +35,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.bodyPage {
+
+}
 .fixed-btn {
   position: fixed;
   bottom: 4%;

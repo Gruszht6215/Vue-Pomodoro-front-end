@@ -1,8 +1,5 @@
 <template>
   <div class="body">
-    <br>
-    <br>
-    <br>
     <form @submit.prevent="login">
       <div>
         <label for="email">Email</label>
@@ -45,6 +42,8 @@ export default {
   },
 };
 </script>
-
-<style>
+<style lang="scss" scoped>
+.body {
+  margin-bottom: 20px;
+}
 </style>
