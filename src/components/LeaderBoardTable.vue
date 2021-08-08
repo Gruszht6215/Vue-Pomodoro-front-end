@@ -98,6 +98,12 @@
     created(){
     this.fetchLeader()
     },
+    mounted(){
+    if(!this.isAuthen()){
+      swal("Restricted Area", "Please, login first", "wwarning");
+      this.$router.push("/login");
+    }
+    },
     methods:{
         async fetchLeader(){
             await LeaderBoardApiStore.dispatch("fetchLeader")

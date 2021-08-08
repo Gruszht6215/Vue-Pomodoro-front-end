@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
+      <router-link to="/">HOME</router-link>
       <div class="route">
-        <b-button   style="background-color:white;color:black;display:block;" v-b-toggle.sidebar-1>Toggle Menu</b-button>
-        <b-sidebar id="sidebar-1" title="PET FOCUS" shadow>
+        <b-button   style="background-color:white;color:black;display:block;" v-b-toggle.sidebar-1>Profile</b-button>
+        <b-sidebar id="sidebar-1" title="Profile" shadow>
         <div class="px-3 py-2">
         <div v-if="this.isTimerRunning === false">
         <p><b-button class="menuButton" variant="outline-danger"><router-link to="/" style="text-decoration: none">HOME</router-link></b-button></p>

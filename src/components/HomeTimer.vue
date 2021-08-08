@@ -115,6 +115,12 @@ export default {
     }
     next();
   },
+  mounted(){
+    if(!this.isAuthen()){
+      swal("Restricted Area", "Please, login first", "wwarning");
+      this.$router.push("/login");
+    }
+  },
   methods: {
     isAuthen() {
       return AuthUser.getters.user.user_profile.profile_point;

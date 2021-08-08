@@ -40,11 +40,12 @@
 <script>
 import PetApiStore from "@/store/petApi.js"
 import AuthUser from "@/store/AuthUser"
+import ProfileApi from "@/store/ProfileApi"
 export default {
     data(){
         return{
             pets: [],
-
+            profiles:[],
             editIndex: -1,
             form:{
                 id: "",
@@ -56,12 +57,20 @@ export default {
         }
     },
     created(){
-        this.fetchPet()
+        // this.fetchProfile()
     },
+    mounted(){
+    if(!this.isAuthen()){
+      swal("Restricted Area", "Please, login first", "wwarning");
+      this.$router.push("/login");
+    }
+  },
     methods:{
-        async fetchPet(){
-            await PetApiStore.dispatch("fetchPet")
-            this.pets = PetApiStore.getters.pets
+        async fetchProfile(){
+            await PetApiStore.dispatch("fetchItem",AuthUser.getters.user.id)
+            this.profiles = ProfileApi.getters.profiles
+            
+            console.log(this.profiles)
         },
         getImage(url){
             return "http://localhost:3000"+url
