@@ -1,50 +1,60 @@
 <template>
   <div class="row">
-    <div>
-      <button v-if="isAdmin()" class="open-button" @click="openFormToAdd()">Add new pet</button>
-      <div class="form-popup" tagname="myForm">
-        <div>
-          <label for="pet_name">Name :</label>
-          <input type="text" v-model="form.pet_name" />
-        </div>
-        <div>
-          <label for="pet_rarity">Rarity :</label>
-          <input type="text" v-model="form.pet_rarity" />
-        </div>
-        <div>
-          <label for="pet_point">Point :</label>
-          <input type="text" v-model="form.pet_point" />
-        </div>
-        <!-- <div>
-          <input type="image" src="@/assets/photo.png" v-model="form.pet_image">
-        </div> -->
+    <button v-if="isAdmin()" class="open-button" @click="openEditForm()">Add new pet</button>
+    <div class="column" id="box" v-for="(pet, index) in pets" v-bind:key="index">
+      <div v-if="index !== editIndex"> 
+        <img :src="getImage(pet.pet_image.url)" />
       </div>
-    </div>
-    <br />
-    <div
-      class="column"
-      id="box"
-      v-for="(pet, index) in pets"
-      v-bind:key="index"
-    >
-      <img :src="getImage(pet.pet_image.url)" />
-      <h2>
-        <i>{{ pet.pet_name }}</i>
-      </h2>
-      <p>
-        Rarity : {{ pet.pet_rarity }}<br />
-        Point : {{ pet.pet_point }} points
-      </p>
+      <!-- <div v-if="index === editIndex"> 
+        เปลี่ยนรูปภาพโดยที่รูปเดิมยังอยู่
+      </div> -->
+
+      <div v-if="index !== editIndex"> 
+        <h2><i>{{ pet.pet_name }}</i></h2>
+      </div>
+      <div v-if="index === editIndex"> 
+        <label for="pet_name">Name : </label>
+        <input type="text" v-model="form.pet_name" />
+      </div>
+
+      <div v-if="index !== editIndex"> 
+        <p>Rarity : {{ pet.pet_rarity }}<br/></p>
+      </div>
+      <div v-if="index === editIndex"> 
+        <label for="pet_name">Rarity : </label>
+        <select v-model="form.rarity">
+          <option disabled value="">Please select one</option>
+          <option>Legendary</option>
+          <option>Epic</option>
+          <option>Rare</option>
+          <option>Common</option>
+        </select>
+      </div>
+
+      <div v-if="index !== editIndex"> 
+        <p>Point : {{ pet.pet_point }} points</p>
+      </div>
+      <div v-if="index === editIndex"> 
+        <label for="pet_name">Point : </label>
+        <input type="number" v-model="form.pet_point">
+      </div>
+
       <div v-if="!isAdmin()">
-        <button @click="decreaseUserpoint(pet.id, 100)">Purchase</button>
+        <button @click="decreaseUserPoint(pet.id)">Purchase</button>
         <!--สมมติ points-->
       </div>
       <div v-if="isAdmin()">
-        <button @click="editItem()">Edit</button>
-        <button @click="deleteIten()">Delete</button>
+        <div v-if="index !== editIndex">
+          <button @click="openForm(index, pet)">Edit</button>
+          <button @click="deleteItem()">Delete</button>
+        </div>
+        <div v-if="index === editIndex">
+          <button @click="editItem()">Update</button>
+          <button @click="closeForm()">Cancel</button>
+        </div>
       </div>
     </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -65,11 +75,9 @@ export default {
       },
     };
   },
-
   created() {
     this.fetchItem();
   },
-
   methods: {
     isAuthen() {
       return AuthUser.getters.isAuthen;
@@ -106,13 +114,10 @@ export default {
         pet_image: "",
       };
     },
-    openFormToAdd() {
-      document.getElementsByTagName("myForm").style.display = "block";
+    openEditForm() {
+      this.router.navigateByUrl('/createPet')
     },
-    closeFormToAdd() {
-      document.getElementsByTagName("myForm").style.display = "none";
-    },
-    async deleteIten() {},
+    async deleteItem() {},
     async editItem() {
       //for admin
       let payload = {
@@ -140,37 +145,42 @@ export default {
       let res = await PetApi.dispatch("addItem", payload);
       if (res.success) {
         this.closeForm();
+        this.fetchItem();
       } else {
         console.log("Add mai dai");
         swal("Add Failed", res.message, "error");
       }
     },
-    calculateUserPoint(pet_id, user_point) {
-      this.pets.forEach(function (pet) {
-        if (pet_id === pet.id) {
-          user_point -= parseInt(pet.pet_point);
-        }
-      });
-      return user_point;
-    },
-    decreaseUserPoint(pet_id, user_point) {
+    // calculateUserPoint(pet_id) {
+    //   this.pets.forEach(function (pet) {
+    //     if (pet_id === pet.id) {
+    //       user_point -= parseInt(pet.pet_point);
+    //     }
+    //   });
+    //   return user_point;
+    // },
+    decreaseUserPoint(pet_id) {
       //ลด point ของ user
-      swal({
-        title: "Are you sure to buy this pet?",
-        text: "If you click, You will receive a lovely pet!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then((willPurchase) => {
-        if (willPurchase) {
-          calculateUserPoint(pet_id, user_point);
-          swal("You received a lovely PET!", {
-            icon: "success",
-          });
-        } else {
-          swal("This pet so sad to you.");
-        }
-      });
+      // swal({
+      //   title: "Are you sure to buy this pet?",
+      //   text: "If you click, You will receive a lovely pet!",
+      //   icon: "warning",
+      //   buttons: true,
+      //   dangerMode: true,
+      // }).then((willPurchase) => {
+      //   if (willPurchase) {
+      //     // calculateUserPoint(pet_id);
+      //     swal("You received a lovely PET!", {
+      //       icon: "success",
+      //     });
+      //     console.log(pet_id)
+      //     return pet_id
+      //   } else {
+      //     swal("This pet so sad to you.");
+      //   }
+      // });
+      console.log(pet_id)
+      return pet_id;
     },
     // addPetToUser() {
     //   //เพิ่มสัตว์เลี้ยงให้ user
@@ -210,6 +220,7 @@ export default {
 }
 h2 {
   text-transform: capitalize;
+  margin-top: 10px;
 }
 img {
   display: block;
@@ -221,54 +232,16 @@ button,
 .open-button {
   text-align: center;
   border-radius: 10px;
-  background: #ffbbf4;
+  background: #fbc1ad;
   cursor: pointer;
 }
-
 .open-button {
   color: white;
   border: none;
   opacity: 0.8;
   position: fixed;
 }
-.form-popup {
-  display: none;
-  position: fixed;
-  top: 10px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-}
-.form-container {
-  max-width: 300px;
-  padding: 10px;
-  background-color: white;
-}
-.form-container input[type="text"] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-}
-.form-container input[type="text"]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-.form-container .btn {
-  background-color: #04aa6d;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom: 10px;
-  opacity: 0.8;
-}
-.form-container .cancel {
-  background-color: red;
-}
-.form-container .btn:hover,
-.open-button:hover {
-  opacity: 1;
+input {
+  width: 100px;
 }
 </style>

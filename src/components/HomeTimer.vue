@@ -6,7 +6,6 @@
           Your Current Points = {{ profilePoint }} <br />
           {{ showPointReward }} <br />
           <p>Waiting For You!</p>
-          <!-- {{ isAuthen() }} <br /> -->
         </h1>
       </div>
       <div id="showTimer">
@@ -65,12 +64,9 @@
         >
           Edit Timer
         </button>
-        <!-- <button @click="test">test</button> -->
         <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
         <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
       </div>
-
-      <!-- <button @click="submit">click</button> -->
     </div>
   </div>
 </template>
@@ -104,6 +100,7 @@ export default {
   mounted() {
     if (!this.isAuthen()) {
       swal("Restricted Area", "Please, login first", "warning");
+      this.$router.push("/login");
     }
   },
   methods: {
@@ -117,11 +114,6 @@ export default {
         AuthUser.getters.user.username
       ).profile_point;
     },
-    // test() {
-    //   // AuthService.getAuthData();
-    //   console.log(AuthUser.getters.user.username);
-    //   console.log(AuthUser.getters.user);
-    // },
     startTimer() {
       this.pointCal(this.hour, this.minute, this.second);
       this.isRunning = true;

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="">
     <h1><i>Reward </i>🌷</h1>
     <div class="fixed-boxUser">
       <p>
-        Username : ... <br />
+        Username : ... <br>
         My Point : ... points
       </p>
     </div>
@@ -39,7 +39,7 @@ export default {
   position: fixed;
   bottom: 4%;
   right: 2%;
-  background: #f39aff;
+  background: #fbc1ad;
   width: 130px;
   height: 40px;
   text-align: center;
@@ -63,10 +63,16 @@ export default {
   box-shadow: 4px 4px 4px #ee34de;
   padding: 10px 30px;
   width: fit-content;
-  height: fit-content;
+  height: 70px;
   color: rgb(255, 255, 255);
 }
 p {
   text-align: left;
+}
+h1 {
+  margin: 20px;
+}
+div {
+  align-content: center;
 }
 </style>

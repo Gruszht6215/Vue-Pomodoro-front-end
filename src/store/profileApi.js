@@ -33,10 +33,7 @@ export default new Vuex.Store({
             state.data.push(payload)
         },
         edit(state, data) {
-            console.log(state.data)
             state.data = data
-            console.log(state.data)
-
             // console.log("state.data", state.data)
         },
     },
