@@ -6,6 +6,7 @@
                   <th>#</th>
                   <th>Earned Point</th>
                   <th>Date</th>
+                  
               </tr>
           </thead>
           <tbody>
@@ -32,6 +33,7 @@
 
 <script>
 import ProfileApiStore from "@/store/ProfileApi.js"
+import AuthUser from "@/store/AuthUser"
 export default {
     data(){
         return{
@@ -47,9 +49,13 @@ export default {
         }
     },
     created(){
+        this.id = this.$route.params.id
         this.fetchProfile()
     },
     methods:{
+        isAuthen() {
+            return AuthUser.getters.isAuthen
+        },
         async fetchProfile(){
             await ProfileApiStore.dispatch("fetchProfile")
             this.profiles = ProfileApiStore.getters.profiles

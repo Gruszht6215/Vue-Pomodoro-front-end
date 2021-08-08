@@ -14,7 +14,7 @@
 
       <div>
         <label for="password">Password</label>
-        <input v-model="form.password" type="password" />
+        <input v-model="form.password" type="password" placeholder="password" />
       </div>
 
       <div>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from "axios"
+import AuthService from '@/services/AuthService'
 
 let api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:3000"
 
@@ -64,12 +65,37 @@ export default new Vuex.Store({
             }
             // console.log("edit body", body)
             let res = await Axios.put(url, body)
-            if (res.status === 200) {
-                commit('edit', res.data)
-                // console.log("commit('edit')", res.data)
-            } else {
-                console.error(res)
-            }
+            try {
+                let url = api_endpoint + "/monsters"
+                // let user = AuthService.getUser()
+                let body = {
+                    profile_user: payload.profile_user,
+                    profile_point: payload.profile_point,
+                    pet_collection: payload.pet_collection,
+                  // user: user.id,
+                }
+                let headers = AuthService.getApiHeader()
+                let res = await Axios.post(url, body, headers)
+                if (res.status === 200) {
+                  commit("add", res.data)
+                  return {
+                    success: true,
+                    data: res.data
+                  }
+                } else {
+                  console.error(res)
+                  return {
+                    success: true,
+                    message: "Unknown status code: " + res.status
+                  }
+                }
+              } catch (e) {
+                console.error(e)
+                return {
+                  success: false,
+                  message: "Unknown error: " + e.response
+                }
+              }
         }
     },
     modules: {}

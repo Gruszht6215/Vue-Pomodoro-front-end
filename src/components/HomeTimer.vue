@@ -256,18 +256,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only scoped lang="scss"-->
 <style scoped lang="scss">
 #timer {
-  background: grey;
+  background: pink;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   margin: 20px auto;
   width: 600px;
-  height: 900px;
+  height: 700px;
   left: 50%;
   top: 50%;
+  
 }
 #timerEditForm {
+  
   width: 100px;
 }
 #inputEditForm {
@@ -277,19 +279,21 @@ export default {
   justify-content: center;
 }
 #showTimer {
-  background-color: pink;
+  background-color: #8c0724;
+  margin-top: 120px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid red 2px;
+  color: white;
   border-radius: 50%;
   width: 210px;
   height: 210px;
+  
 }
 #point {
   // margin-bottom: 100px;
   position: absolute;
-  top: 220px;
+  top: 150px;
 }
 </style>

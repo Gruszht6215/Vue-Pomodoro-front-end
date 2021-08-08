@@ -28,9 +28,9 @@
                 <input type="text" v-model="form.pet_point" />
             </td>
             <td v-if="index !== editIndex"><img :src="getImage(pet.pet_image.url)" width="50"></td>
-            <td v-if="index === editIndex">
+            <!-- <td v-if="index === editIndex">
                 <img src="getImage(pet.pet_image.url)" alt="">
-            </td>
+            </td> -->
             </tr>
           </tbody>
       </table>
@@ -39,6 +39,7 @@
 
 <script>
 import PetApiStore from "@/store/petApi.js"
+import AuthUser from "@/store/AuthUser"
 export default {
     data(){
         return{
@@ -64,8 +65,12 @@ export default {
         },
         getImage(url){
             return "http://localhost:3000"+url
-        }
+        },
+        isAuthen() {
+            console.log(AuthUser.getters.isAuthen)
+            return AuthUser.getters.isAuthen
     }
+  }
 }
 </script>
 

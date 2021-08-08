@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from "axios"
-
+import AuthService from '@/services/AuthService'
 //import PetApiJson from '@/store/PetApiJson.json'
 
 let api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:3000"
