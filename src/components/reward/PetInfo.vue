@@ -1,48 +1,60 @@
 <template>
   <div class="row">
-    <div>
-      <form @submit.prevent="submitEdit" v-if="isEdit === true">
-        <label for="AddNewPet">Add New Pet</label>
-        <div>
-          <label>Name : <input type="text" placeholder="name" maxlength="20" v-model="form.pet_name"/></label><br>
-          <label>Rarity : <select name="pet_rarity" v-model="form.pet_rarity">
-            <option value="pet_rarity" v-for="(pet,index) in pets" v-bind:key="index">{{pet.pet_rarity}}</option>
-          </select></label><br>
-          <label>Point : <input type="number" placeholder="point" max="1000" v-model="form.pet_point"></label><br>
-          <!-- อย่าลืมทำที่ input image -->
-        </div>
-      </form>
-      <button @click="openEditForm" v-if="isEdit === false">Add New Pet</button>
-      <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
-      <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
-    </div>
-    <br><br>
-       <div class="column" id="box" v-for="(pet,index) in pets" v-bind:key="index">
-         <div v-if="index !== editIndex"><img :src="getImage(pet.pet_image.url)"></div>
-         <!-- <div v-if="index === editIndex">
-           <input type="text">
-         </div> -->
-         <div v-if="index !== editIndex"><h2><i>{{pet.pet_name}}</i></h2></div>
-         <div v-if="index === editIndex">
-           <input type="text" v-model="form.pet_name"/>
-         </div>
-         <div v-if="index !== editIndex"><p>Rarity : {{pet.pet_rarity}}<br>
-         Point : {{pet.pet_point}} points</p></div>
-         <div v-if="index === editIndex">
-           <select name="pet_rarity" v-model="form.pet_rarity">
-            <option value="pet_rarity" v-for="(pet,index) in pets" v-bind:key="index">{{pet.pet_rarity}}</option>
-          </select>
-         </div>
-         <div v-if="index !== editIndex"><button @click="decreaseUserpoint(pet.id, 100)">Purchase</button></div> <!--สมมติ points-->
-         <div v-if="index === editIndex">
-           <button @click="editItem()">Update</button>
-           <button @click="closeForm()">Cancel</button>
-         </div>
-         <div>
-           <!-- <button @click="DeletePet" v-if="isEdit === false">Delete</button> -->
-         </div>
+    <button v-if="isAdmin()" class="open-button" @click="openEditForm()">Add new pet</button>
+    <div class="column" id="box" v-for="(pet, index) in pets" v-bind:key="index">
+      <div v-if="index !== editIndex"> 
+        <img :src="getImage(pet.pet_image.url)" />
       </div>
-  </div>
+      <!-- <div v-if="index === editIndex"> 
+        เปลี่ยนรูปภาพโดยที่รูปเดิมยังอยู่
+      </div> -->
+
+      <div v-if="index !== editIndex"> 
+        <h2><i>{{ pet.pet_name }}</i></h2>
+      </div>
+      <div v-if="index === editIndex"> 
+        <label for="pet_name">Name : </label>
+        <input type="text" v-model="form.pet_name" />
+      </div>
+
+      <div v-if="index !== editIndex"> 
+        <p>Rarity : {{ pet.pet_rarity }}<br/></p>
+      </div>
+      <div v-if="index === editIndex"> 
+        <label for="pet_name">Rarity : </label>
+        <select v-model="form.rarity">
+          <option disabled value="">Please select one</option>
+          <option>Legendary</option>
+          <option>Epic</option>
+          <option>Rare</option>
+          <option>Common</option>
+        </select>
+      </div>
+
+      <div v-if="index !== editIndex"> 
+        <p>Point : {{ pet.pet_point }} points</p>
+      </div>
+      <div v-if="index === editIndex"> 
+        <label for="pet_name">Point : </label>
+        <input type="number" v-model="form.pet_point">
+      </div>
+
+      <div v-if="!isAdmin()">
+        <button @click="decreaseUserpoint(pet.id, 100)">Purchase</button>
+        <!--สมมติ points-->
+      </div>
+      <div v-if="isAdmin()">
+        <div v-if="index !== editIndex">
+          <button @click="openForm(index, pet)">Edit</button>
+          <button @click="deleteItem()">Delete</button>
+        </div>
+        <div v-if="index === editIndex">
+          <button @click="editItem()">Update</button>
+          <button @click="closeForm()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -61,14 +73,11 @@ export default {
         pet_point: "",
         pet_image: "",
       },
-      isEdit: false
     };
   },
-
   created() {
     this.fetchItem();
   },
-
   methods: {
     isAuthen() {
       return AuthUser.getters.isAuthen;
@@ -106,30 +115,9 @@ export default {
       };
     },
     openEditForm() {
-      this.isEdit = true
+      this.router.navigateByUrl('/createPet')
     },
-    closeEditForm() {
-      this.isEdit = false
-    },
-    submitEdit() {
-      if (this.form.pet_name === '' || this.form.pet_rarity === '' || this.form.pet_point === '') { //|| this.form.pet_image === ''
-      if (this.form.pet_point === 0 || this.form.pet_point < 0 || this.form.pet_point > 1000) {
-        swal(
-          "Warning",
-          "Point must between 1-1000",
-          "warning"
-        );
-      } else {
-        swal(
-          "Warning",
-          "Please field the data",
-          "warning"
-        );
-      }
-      } else {
-        this.addItem()
-      }
-    },
+    async deleteItem() {},
     async editItem() {
       //for admin
       let payload = {
@@ -159,17 +147,17 @@ export default {
         this.closeForm();
         this.fetchItem();
       } else {
-        console.log('Add mai dai')
-        swal('Add Failed', res.message, 'error')
+        console.log("Add mai dai");
+        swal("Add Failed", res.message, "error");
       }
     },
     calculateUserPoint(pet_id, user_point) {
-            this.pets.forEach(function(pet) {
-              if (pet_id === pet.id) {
-                user_point -= parseInt(pet.pet_point)
-              }
-            })
-            return user_point
+      this.pets.forEach(function (pet) {
+        if (pet_id === pet.id) {
+          user_point -= parseInt(pet.pet_point);
+        }
+      });
+      return user_point;
     },
     decreaseUserPoint(pet_id, user_point) {
       //ลด point ของ user
@@ -179,17 +167,16 @@ export default {
         icon: "warning",
         buttons: true,
         dangerMode: true,
-        })
-        .then((willPurchase) => {
-          if (willPurchase) {
-            calculateUserPoint(pet_id, user_point)
-            swal("You received a lovely PET!", {
-              icon: "success",
-            });
-          } else {
-            swal("This pet so sad to you.");
-          }
-        });
+      }).then((willPurchase) => {
+        if (willPurchase) {
+          calculateUserPoint(pet_id, user_point);
+          swal("You received a lovely PET!", {
+            icon: "success",
+          });
+        } else {
+          swal("This pet so sad to you.");
+        }
+      });
     },
     // addPetToUser() {
     //   //เพิ่มสัตว์เลี้ยงให้ user
@@ -237,7 +224,8 @@ img {
   width: 250px;
   height: 250px;
 }
-button, .open-button {
+button,
+.open-button {
   text-align: center;
   border-radius: 10px;
   background: #ffbbf4;
@@ -262,31 +250,32 @@ button, .open-button {
   padding: 10px;
   background-color: white;
 }
-.form-container input[type=text]{
+.form-container input[type="text"] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
 }
-.form-container input[type=text]:focus {
+.form-container input[type="text"]:focus {
   background-color: #ddd;
   outline: none;
 }
 .form-container .btn {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
   padding: 16px 20px;
   border: none;
   cursor: pointer;
   width: 100%;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   opacity: 0.8;
 }
 .form-container .cancel {
   background-color: red;
 }
-.form-container .btn:hover, .open-button:hover {
+.form-container .btn:hover,
+.open-button:hover {
   opacity: 1;
 }
 input {

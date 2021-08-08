@@ -29,7 +29,7 @@
             </td>
             <td v-if="index !== editIndex"><img :src="getImage(pet.pet_image.url)" width="50"></td>
             <td v-if="index === editIndex">
-                <img src="getImage(pet.pet_image.url)" alt="">
+                <img :src="getImage(pet.pet_image.url)" alt="">
             </td>
             </tr>
           </tbody>
