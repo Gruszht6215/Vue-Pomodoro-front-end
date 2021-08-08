@@ -3,8 +3,8 @@
     <button v-if="isAdmin()" class="open-button" @click="openAddForm()">
       Add new pet
     </button>
-    <h1>{{ profileName }}</h1>
-    <h1>{{ showProfilePoint }}</h1>
+    <h2>Hi, {{ profileName }}</h2>
+    <h3>you have {{ showProfilePoint }} points</h3>
     <div
       class="column"
       id="box"
@@ -83,6 +83,7 @@
 import PetApi from "@/store/petApi";
 import AuthUser from "@/store/AuthUser";
 import ProfileApi from "@/store/ProfileApi";
+import LeaderboardApi from "@/store/LeaderBoardApi";
 
 export default {
   data() {
@@ -171,10 +172,11 @@ export default {
       };
     },
     openAddForm() {
-      // this.router.navigateByUrl("/createPet");
       this.$router.push("/createPet");
     },
-    async deleteItem() {},
+    async deleteItem() {
+      
+    },
 
     onFileChanged(event) {
       this.selectedFile = event.target.files[0];
@@ -204,6 +206,7 @@ export default {
       if (parseInt(this.profilePoint) <= parseInt(pet.pet_point)) {
         swal("Sorry", "You do not have enough point.", "warning");
       } else {
+        //Profile part
         let totalPoint = parseInt(this.profilePoint) - parseInt(pet.pet_point);
         let payload = {
           profile_id: this.profileId,
@@ -211,6 +214,13 @@ export default {
         };
         await ProfileApi.dispatch("decreasePoint", payload);
         this.profilePoint = totalPoint;
+        //Leaderboard part
+        let Leaderboard_payload = {
+          point: pet.pet_point,
+          pointType: "Spend",
+        };
+        await LeaderboardApi.dispatch("addHistory", Leaderboard_payload);
+
         swal("Purchase Successful", "", "success");
       }
     },
@@ -279,7 +289,8 @@ button,
   margin: 5px;
   width: 150px;
 }
-button, #input-image {
+button,
+#input-image {
   margin: 5px;
   text-align: center;
   border-radius: 10px;

@@ -34,7 +34,6 @@ export default new Vuex.Store({
         },
         edit(state, data) {
             state.data = data
-            // console.log("state.data", state.data)
         },
     },
     actions: {
@@ -62,7 +61,6 @@ export default new Vuex.Store({
         },
         async editProfile({ commit }, payload) {
             let url = api_endpoint + '/profiles/' + payload.profile_id
-                // console.log("payload.profile_point", payload.profile_user)
             let body = {
                 profile_user: payload.profile_user,
                 profile_point: payload.profile_point,
@@ -73,14 +71,12 @@ export default new Vuex.Store({
 
             if (res.status === 200) {
                 commit('edit', res.data)
-                console.log("commit('edit')", res.data)
             } else {
                 console.error(res)
             }
         },
         async decreasePoint({ commit }, payload) {
             let url = api_endpoint + '/profiles/' + payload.profile_id
-            // console.log("payload.profile_point", payload.profile_user)
             let body = {
                 profile_point: payload.profile_point,
             }
