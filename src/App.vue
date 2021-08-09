@@ -3,7 +3,6 @@
     <div id="nav">
       <div v-if="this.isTimerRunning === false">
         <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/leaderboard">Leaderboard</router-link></li>
         <li><router-link to="/reward">Reward</router-link></li>
         <li><router-link to="/profile">Profile</router-link></li>
         <li><router-link to="/createPet">Create Pet</router-link></li>
@@ -19,6 +18,11 @@
           <li style="float: right" class="active">
             <router-link to="/logout">Logout</router-link>
           </li>
+          <div v-if="isAdmin()">
+            <li style="float: right" class="active">
+              <router-link to="/leaderboard">Leaderboard</router-link>
+            </li>
+          </div>
         </div>
       </div>
       <div class="focus" v-if="this.isTimerRunning === true">
@@ -43,6 +47,12 @@ export default {
     });
   },
   methods: {
+    isAdmin() {
+      if (AuthUser.getters.user.role.name === "Admin") {
+        return true;
+      }
+      return false;
+    },
     isAuthen() {
       return AuthUser.getters.isAuthen;
     },

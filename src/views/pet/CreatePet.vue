@@ -1,13 +1,15 @@
 <template>
   <div class="distance">
     <!-- <button @click="onUpload">Upload!</button> -->
-    <h1>Add New Pet</h1><br>
+    <h1>Add New Pet</h1>
+    <br />
     <form @submit.prevent="onSubmit">
       <img :src="previewImage" class="uploading-image" />
       <input type="file" @change="onFileChanged" />
       <div>
         <label for="name">Pet Name : </label>
-        <input id="input-default"
+        <input
+          id="input-default"
           v-model="form.name"
           type="text"
           placeholder=" name"
@@ -26,7 +28,12 @@
       </div>
       <div>
         <label for="point">Pet Point : </label>
-        <input id="input-default" v-model="form.point" type="number" placeholder=" point" />
+        <input
+          id="input-default"
+          v-model="form.point"
+          type="number"
+          placeholder=" point"
+        />
       </div>
 
       <div>
@@ -38,6 +45,7 @@
 
 <script>
 import PetApiStore from "@/store/petApi";
+import AuthUser from "@/store/AuthUser";
 
 export default {
   data() {
@@ -51,7 +59,28 @@ export default {
       previewImage: null,
     };
   },
+  mounted() {
+    if (!this.isAuthen()) {
+      swal("Restricted Area", "Please, login first", "warning");
+      this.$router.push("/login");
+    } else {
+      if (!this.isAdmin()) {
+        swal("Restricted Area", "You have no permission", "warning");
+        this.$router.push("/");
+      }
+    }
+  },
   methods: {
+    isAuthen() {
+      return AuthUser.getters.isAuthen;
+    },
+    isAdmin() {
+      if (AuthUser.getters.user.role.name === "Admin") {
+        return true;
+      }
+      return false;
+    },
+
     onFileChanged(event) {
       this.selectedFile = event.target.files[0];
 
@@ -99,7 +128,8 @@ export default {
   margin: 5px;
   width: 150px;
 }
-button, #input-image {
+button,
+#input-image {
   margin: 5px;
   text-align: center;
   border-radius: 10px;

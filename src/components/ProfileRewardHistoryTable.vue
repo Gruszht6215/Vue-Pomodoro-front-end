@@ -1,63 +1,63 @@
 <template>
   <div class="distance">
-      <table class="table table-striped">
-          <thead>
-              <tr>
-                  <th>#</th>
-                  <th>Earned Point</th>
-                  <th>Date</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr v-for="(profile, index) in profiles" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td v-if="index !== editIndex" >
-                {{ profile.profile_point }}
-            </td>
-            <td v-if="index === editIndex">
-                <input type="text" v-model="form.profile_point" />
-            </td>
-
-            <td v-if="index !== editIndex">{{ profile.created_at.substring(0,10) }}
-
-            </td>
-            <td v-if="index === editIndex">
-                <input type="text" v-model="form.created_at" />
-            </td>
-            </tr>
-          </tbody>
-      </table>
+      <h1>History </h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Type</th>
+          <th>Point Amunt</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="leaderboard in leaderboards" :key="leaderboard.id">
+          <td v-if="isAuthUser(leaderboard.user_email)">
+            {{ leaderboard.user_email }}
+          </td>
+          <td v-if="isAuthUser(leaderboard.user_email)">
+            {{ leaderboard.point_type }}
+          </td>
+          <td v-if="isAuthUser(leaderboard.user_email)">
+            {{ leaderboard.point_amount }}
+          </td>
+          <td v-if="isAuthUser(leaderboard.user_email)">
+            {{ leaderboard.active_date }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <button @click="isAuthUser()"></button> -->
   </div>
 </template>
 
 <script>
-import ProfileApiStore from "@/store/ProfileApi.js"
-export default {
-    data(){
-        return{
-            profiles: [],
+import AuthUser from "@/store/AuthUser";
+import LeaderboardApi from "@/store/LeaderBoardApi";
 
-            editIndex: -1,
-            form:{
-                id: "",
-                profile_name: "",
-                profile_point: "",
-                pet_collection: "",
-            },
-        }
+export default {
+  data() {
+    return {
+      leaderboards: [],
+    };
+  },
+  created() {
+    this.fetchItem();
+  },
+  methods: {
+    async fetchItem() {
+      await LeaderboardApi.dispatch("fetchItem");
+      this.leaderboards = LeaderboardApi.getters.leaders;
     },
-    created(){
-        this.fetchProfile()
+    isAuthUser(email) {
+      if (AuthUser.getters.user.email === email) {
+        return true;
+      }
+      return false;
     },
-    methods:{
-        async fetchProfile(){
-            await ProfileApiStore.dispatch("fetchProfile")
-            this.profiles = ProfileApiStore.getters.profiles
-        },
-    }
-}
+  },
+};
 </script>
 
 <style>
-
 </style>

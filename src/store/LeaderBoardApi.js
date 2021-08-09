@@ -28,7 +28,10 @@ export default new Vuex.Store({
             let res = await Axios.get(api_endpoint + "/leaderboards?_sort=point_amount:DESC")
             commit('fetch', { res })
         },
-
+        async fetchItem({ commit }) {
+            let res = await Axios.get(api_endpoint + "/leaderboards")
+            commit('fetch', { res })
+        },
         async addHistory({ commit }, { point, pointType }) {
             try {
                 console.log("point", point)

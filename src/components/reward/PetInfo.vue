@@ -64,7 +64,7 @@
 
         <div v-if="!isAdmin() && index !== editIndex">
           <div v-if="!isPurchased(pet.id)">
-            <button @click="purchase(pet)">Purchase</button>
+            <button @click="purchase(index, pet)">Purchase</button>
           </div>
           <div v-if="isPurchased(pet.id)">
             <h3>purchased</h3>
@@ -221,26 +221,36 @@ export default {
       this.closeForm();
     },
 
-    async purchase(pet) {
+    async purchase(index, pet) {
       if (parseInt(this.profilePoint) <= parseInt(pet.pet_point)) {
         swal("Sorry", "You do not have enough point.", "warning");
       } else {
         //Profile part
         let totalPoint = parseInt(this.profilePoint) - parseInt(pet.pet_point);
+        let profileCollection = ProfileApi.getters
+          .profile(AuthUser.getters.user.username)
+          .pet_collection.map((pet) => pet.id);
+        profileCollection.push(pet.id);
+
         let payload = {
+          index: index,
           profile_id: this.profileId,
           profile_point: totalPoint,
+          pet_collection: profileCollection,
         };
-        await ProfileApi.dispatch("decreasePoint", payload);
+        await ProfileApi.dispatch("editProfile", payload);
         this.profilePoint = totalPoint;
+        //Pet part
+
         //Leaderboard part
         let Leaderboard_payload = {
           point: pet.pet_point,
           pointType: "Spend",
         };
         await LeaderboardApi.dispatch("addHistory", Leaderboard_payload);
-
         swal("Purchase Successful", "", "success");
+        // this.fetchItem();
+        this.$router.go();
       }
     },
 

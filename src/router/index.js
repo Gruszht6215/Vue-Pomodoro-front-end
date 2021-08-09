@@ -7,6 +7,7 @@ import Logout from '@/views/auth/Logout.vue'
 import Register from '@/views/auth/Register.vue'
 import LeaderBoard from '@/views/LeaderBoard.vue'
 import CreatePet from '@/views/pet/CreatePet.vue'
+import Profile from '@/views/Profile'
 
 Vue.use(VueRouter)
 
@@ -37,7 +38,8 @@ const routes = [{
 },
 {
   path: '/profile',
-  name: 'Profiles',
+  name: 'Profile',
+  component: Profile
 },
 {
   path: '/leaderboard',
