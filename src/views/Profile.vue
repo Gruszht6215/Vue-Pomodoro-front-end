@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <h1>History Point Recive and Spend</h1>
+    <h1>History Point Receive and Spend</h1>
     <profile-reward-history-table></profile-reward-history-table>
   </div>
 </template>

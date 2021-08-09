@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="distance">
     <!-- <input type="date" v-model="mydate1">
       <input type="date" v-model="mydate2"> -->
     <div class="filter">
-      Date filer :
+      Date filter :
       <date-picker v-model="mydate1" placeholder="Start date"></date-picker>
       To
       <date-picker v-model="mydate2" placeholder="End date"></date-picker>
@@ -243,5 +243,20 @@ export default {
 .filter {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.distance {
+  margin-top: 80px;
+}
+button {
+  margin: 5px;
+  margin-left: 10px;
+  text-align: center;
+  border-radius: 10px;
+  background: #fbc1ad;
+  cursor: pointer;
+}
+date-picker {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 </style>

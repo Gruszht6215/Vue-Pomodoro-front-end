@@ -1,11 +1,13 @@
 <template>
   <div class="row">
-    <button v-if="isAdmin()" class="open-button" @click="openAddForm()">
+    <div>
+      <button v-if="isAdmin()" class="open-button" @click="openAddForm()">
       Add new pet
     </button>
     <div v-if="!isAdmin()">
-      <h2>Hi, {{ profileName }}</h2>
-      <h3>you have {{ showProfilePoint }} points</h3>
+      <h4>Hi, {{ profileName }}</h4>
+      <h5>you have {{ showProfilePoint }} points</h5><br>
+    </div>
     </div>
     <div
       class="column"
@@ -26,7 +28,7 @@
           </h2>
         </div>
         <div v-if="index !== editIndex">
-          <p>Rarity : {{ pet.pet_rarity }}<br /></p>
+          <p>Rarity : {{ pet.pet_rarity }}</p>
         </div>
         <div v-if="index !== editIndex">
           <p>Point : {{ pet.pet_point }} points</p>
@@ -36,7 +38,7 @@
           <form @submit.prevent="onSubmitEdit">
             <div v-if="index === editIndex">
               <label for="pet_name">Name : </label>
-              <input type="text" v-model="form.pet_name" />
+              <input id="inputEditForm" type="text" v-model="form.pet_name" />
             </div>
 
             <label for="pet_name">Rarity : </label>
@@ -50,7 +52,7 @@
 
             <div v-if="index === editIndex">
               <label for="pet_name">Point :</label>
-              <input type="number" v-model="form.pet_point" />
+              <input id="inputEditForm" type="number" v-model="form.pet_point" />
             </div>
 
             <input type="file" @change="onFileChanged" />
@@ -271,7 +273,7 @@ export default {
   box-sizing: border-box;
 }
 @media screen {
-  .column {
+  .column, .columnn {
     width: 100%;
   }
 }
@@ -287,7 +289,7 @@ export default {
 }
 #box {
   margin: 20px;
-  margin-left: 50px;
+  margin-left: 55px;
   border-radius: 25px;
   background: #f6ffea;
   padding: 20px;
@@ -299,6 +301,7 @@ h2 {
   margin-top: 10px;
 }
 img {
+  position: inherit;
   display: block;
   border-radius: 25px;
   width: 250px;
@@ -328,5 +331,15 @@ button,
 }
 select {
   margin-left: 5px;
+}
+#inputEditForm {
+  background-color: #e5e1e0;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  width: 120px;
+}
+select {
+  width: 120px;
 }
 </style>

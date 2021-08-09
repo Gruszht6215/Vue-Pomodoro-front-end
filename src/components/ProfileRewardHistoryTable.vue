@@ -1,12 +1,14 @@
 <template>
-  <div class="distance">
+  <div class="distance-for-profile">
+    <br>
       <h1>History </h1>
+      <br>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Email</th>
           <th>Type</th>
-          <th>Point Amunt</th>
+          <th>Point Amount</th>
           <th>Date</th>
         </tr>
       </thead>

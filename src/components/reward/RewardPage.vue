@@ -1,6 +1,6 @@
 <template>
   <div class="distance">
-    <h1><i>Reward </i>🌷</h1>
+    <h1>Reward</h1>
     <pet-info></pet-info>
   </div>
 </template>

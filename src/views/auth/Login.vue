@@ -3,11 +3,11 @@
     <h1>Login</h1>
     <form @submit.prevent="login">
       <div>
-        <label for="email">Email : </label>
+        <img src="@/assets/email.png" alt="email">
         <input v-model="form.email" type="text" placeholder=" email" />
       </div>
       <div>
-        <label for="password">Password : </label>
+        <img src="@/assets/key.png" alt="password">
         <input v-model="form.password" type="password" placeholder=" password" />
       </div>
       <div>
@@ -52,6 +52,7 @@ input {
   border: none;
   border-radius: 10px;
   margin: 5px;
+  padding-bottom: 5px;
   width: 150px;
 }
 button {
@@ -60,5 +61,12 @@ button {
   border-radius: 10px;
   background: #fbc1ad;
   cursor: pointer;
+}
+img {
+  width: 30px;
+  height: 30px;
+}
+.distance {
+  margin-top: 300px;
 }
 </style>

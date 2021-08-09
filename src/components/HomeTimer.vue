@@ -11,17 +11,12 @@
         </h1>
       </div>
       <div id="showTimer">
-        <h1>{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
+        <h1 style="font-size: 40px">{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
       </div>
       <div>
         <br>
-        <button
-          @click="startTimer"
-          v-if="isRunning === false && isEdit === false"
-        >
-          Start
-        </button>
-        <button @click="stopTimer" v-if="isRunning === true">Give Up</button>
+        <img src="@/assets/video-play-button.png" @click="startTimer" v-if="isRunning === false && isEdit === false">
+        <img src="@/assets/stop-button.png" @click="stopTimer" v-if="isRunning === true">
 
         <form @submit.prevent="submitEdit" v-if="isEdit === true">
           <label for="timerEditForm">Set Timer</label>
@@ -61,12 +56,7 @@
             </label>
           </div>
         </form>
-        <button
-          @click="openEditForm"
-          v-if="isRunning === !true && isEdit === false"
-        >
-          Edit Timer
-        </button>
+        <img src="@/assets/edit.png" @click="openEditForm" v-if="isRunning === !true && isEdit === false">
         <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
         <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
       </div>
@@ -279,18 +269,19 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  width: 210px;
-  height: 210px;
+  width: 250px;
+  height: 250px;
 }
 #point {
   // margin-bottom: 100px;
   position: relative;
-  padding: 20px;
+  padding: 10px;
 }
 h1 {
   font-size: 27px;
 }
 #box {
+  font-size: 20px;
   color: #000000;
   margin: 20px;
   border-radius: 25px;
@@ -307,11 +298,16 @@ button,
   background: #fbc1ad;
   cursor: pointer;
 }
-
 .open-button {
   color: white;
   border: none;
   opacity: 0.8;
   position: fixed;
+}
+img {
+  width: 60px;
+  height: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 </style>
