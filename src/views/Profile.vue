@@ -6,13 +6,11 @@
 </template>
 
 <script>
-import ProfileCollectionPetTable from "@/components/ProfileCollectionPetTable.vue";
 import ProfileRewardHistoryTable from "@/components/ProfileRewardHistoryTable.vue";
 import AuthUser from "@/store/AuthUser";
 
 export default {
   components: {
-    ProfileCollectionPetTable,
     ProfileRewardHistoryTable,
   },
   mounted() {
