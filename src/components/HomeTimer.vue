@@ -2,7 +2,7 @@
   <div class="body">
     <div id="timer">
       <div id="point">
-        <div id="box">Your Current Point : {{ profilePoint }} points</div>
+        <div id="box">Your Point : {{ profilePoint }} points</div>
         <h1>
           {{ showPointReward }} <br />
           <p>Waiting For You!</p>
