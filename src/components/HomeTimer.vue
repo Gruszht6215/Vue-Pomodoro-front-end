@@ -2,21 +2,29 @@
   <div class="body">
     <div id="timer">
       <div id="point">
-        <div id="box">
-          Your Current Point : {{ profilePoint }} points
-        </div>
+        <div id="box">Your Current Point : {{ profilePoint }} points</div>
         <h1>
           {{ showPointReward }} <br />
           <p>Waiting For You!</p>
         </h1>
       </div>
       <div id="showTimer">
-        <h1 style="font-size: 40px">{{ showHour }} : {{ showMinute }} : {{ showSecond }}</h1>
+        <h1 style="font-size: 40px">
+          {{ showHour }} : {{ showMinute }} : {{ showSecond }}
+        </h1>
       </div>
       <div>
-        <br>
-        <img src="@/assets/video-play-button.png" @click="startTimer" v-if="isRunning === false && isEdit === false">
-        <img src="@/assets/stop-button.png" @click="stopTimer" v-if="isRunning === true">
+        <br />
+        <img
+          src="@/assets/video-play-button.png"
+          @click="startTimer"
+          v-if="isRunning === false && isEdit === false"
+        />
+        <img
+          src="@/assets/stop-button.png"
+          @click="stopTimer"
+          v-if="isRunning === true"
+        />
 
         <form @submit.prevent="submitEdit" v-if="isEdit === true">
           <label for="timerEditForm">Set Timer</label>
@@ -56,7 +64,11 @@
             </label>
           </div>
         </form>
-        <img src="@/assets/edit.png" @click="openEditForm" v-if="isRunning === !true && isEdit === false">
+        <img
+          src="@/assets/edit.png"
+          @click="openEditForm"
+          v-if="isRunning === !true && isEdit === false"
+        />
         <button @click="submitEdit" v-if="isEdit === true">Confirm</button>
         <button @click="closeEditForm" v-if="isEdit === true">Cancel</button>
       </div>
