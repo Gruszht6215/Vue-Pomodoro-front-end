@@ -2,7 +2,11 @@
 
 ## Project setup
 ```
-npm install
+npm install 
+npm install sweetalert
+npm install vuejs-datepicker
+npm install vue2-datepicker
+npm i bootstrap-icons
 ```
 
 ### Compiles and hot-reloads for development
