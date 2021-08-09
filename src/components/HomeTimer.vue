@@ -285,7 +285,7 @@ export default {
 #point {
   // margin-bottom: 100px;
   position: relative;
-  padding: 20px;
+  padding: 10px;
 }
 h1 {
   font-size: 27px;

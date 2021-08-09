@@ -3,17 +3,17 @@
     <h1>Register</h1>
     <form @submit.prevent="register">
       <div>
-        <label for="username">Username : </label>
+        <img src="@/assets/user.png" alt="username">
         <input v-model="form.username" type="text" placeholder=" username" />
       </div>
 
       <div>
-        <label for="email">Email :</label>
+        <img src="@/assets/email.png" alt="email">
         <input v-model="form.email" type="text" placeholder=" email" />
       </div>
 
       <div>
-        <label for="password">Password :</label>
+        <img src="@/assets/key.png" alt="password">
         <input v-model="form.password" type="password" placeholder=" password" />
       </div>
 
@@ -55,6 +55,7 @@ input {
   background-color: #e5e1e0;
   border: none;
   border-radius: 10px;
+  padding-bottom: 5px;
   margin: 5px;
   width: 150px;
 }
@@ -64,5 +65,9 @@ button {
   border-radius: 10px;
   background: #fbc1ad;
   cursor: pointer;
+}
+img {
+  width: 30px;
+  height: 30px;
 }
 </style>

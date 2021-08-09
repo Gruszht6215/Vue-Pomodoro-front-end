@@ -4,8 +4,6 @@
     <div class="info">
     </div>
     <profile-collection-pet-table></profile-collection-pet-table>
-  
-    <h2>Reward History</h2>
     <profile-reward-history-table></profile-reward-history-table>
   </div>
 </template>
@@ -13,6 +11,7 @@
 <script>
 import ProfileCollectionPetTable from '../components/ProfileCollectionPetTable.vue'
 import ProfileRewardHistoryTable from '../components/ProfileRewardHistoryTable.vue'
+import AuthUser from "@/store/AuthUser"
 export default {
   components: { 
     ProfileCollectionPetTable, 

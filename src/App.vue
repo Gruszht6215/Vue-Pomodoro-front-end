@@ -6,7 +6,7 @@
         <li><router-link to="/leaderboard">Leaderboard</router-link></li>
         <li><router-link to="/reward">Reward</router-link></li>
         <li><router-link to="/profile">Profile</router-link></li>
-        <li><router-link to="/createPet">Create Pet</router-link></li>
+        <!-- <li><router-link to="/createPet">Create Pet</router-link></li> -->
         <li style="float:right" class="active"><router-link to="/login">Login</router-link></li>
         <li style="float:right" class="active"><router-link to="/logout">Logout</router-link></li>
         <li style="float:right" class="active"><router-link to="/register">Register</router-link></li>

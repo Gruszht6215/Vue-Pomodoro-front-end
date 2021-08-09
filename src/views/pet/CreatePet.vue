@@ -3,8 +3,8 @@
     <!-- <button @click="onUpload">Upload!</button> -->
     <h1>Add New Pet</h1><br>
     <form @submit.prevent="onSubmit">
-      <img :src="previewImage" class="uploading-image" />
-      <input type="file" @change="onFileChanged" />
+      <img :src="previewImage" class="uploading-image"/>
+      <input type="file" @change="onFileChanged"/>
       <div>
         <label for="name">Pet Name : </label>
         <input id="input-default"

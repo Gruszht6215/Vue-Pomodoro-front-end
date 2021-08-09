@@ -1,5 +1,6 @@
 <template>
-  <div class="distance">
+  <div class="distance-for-profile">
+      <h1>Reward History</h1><br>
       <table class="table table-striped">
           <thead>
               <tr>

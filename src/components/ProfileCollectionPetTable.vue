@@ -1,6 +1,6 @@
 <template>
-  <div class="distance">
-      <h2>Pet Collection</h2>
+  <div class="distance-for-profile">
+      <h1>Pet Collection</h1><br>
       <table class="table table-striped">
           <thead>
               <tr>
@@ -73,5 +73,9 @@ export default {
 img{
     position: relative;
     border-radius: 50%;
+}
+.distance-for-profile {
+    margin-top: 50px;
+    text-align: center;
 }
 </style>

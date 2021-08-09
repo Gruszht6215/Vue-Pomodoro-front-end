@@ -48,7 +48,7 @@
       <div v-if="isAdmin()">
         <div v-if="index !== editIndex">
           <button @click="openForm(index, pet)">Edit</button>
-          <button @click="deleteItem()">Delete</button>
+          <button @click="deleteItem(pet.id-1)">Delete</button>
         </div>
         <div v-if="index === editIndex">
           <button @click="editItem()">Update</button>
@@ -119,7 +119,9 @@ export default {
     openEditForm() {
       this.$router.push("/createPet");
     },
-    async deleteItem() {},
+    async deleteItem(id) {
+      this.$delete(this.pets, id)
+    },
     async editItem() {
       //for admin
       let payload = {
@@ -227,6 +229,7 @@ h2 {
   margin-top: 10px;
 }
 img {
+  position: inherit;
   display: block;
   border-radius: 25px;
   width: 250px;
