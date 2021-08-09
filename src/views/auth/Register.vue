@@ -70,4 +70,7 @@ img {
   width: 30px;
   height: 30px;
 }
+.distance {
+  margin-top: 300px;
+}
 </style>

@@ -63,7 +63,6 @@ export default {
                 email: email,
                 password: password
             }
-            console.log("body", body)
             let res = await Axios.post(url, body)
             if (res.status === 200) {
                 localStorage.setItem(auth_key, JSON.stringify(res.data))
@@ -98,10 +97,6 @@ export default {
     },
     async receivePoint(profile_id, point) {
         try {
-            // console.log(auth)
-            // console.log(auth)
-            // let profile_id = auth.user.user_profile.id
-
             let url_profile = api_endpoint + "/profiles/" + profile_id
             let url_leaderboard = api_endpoint + "/leaderboards"
 
@@ -150,5 +145,4 @@ export default {
             console.log(error)
         }
     }
-
 }

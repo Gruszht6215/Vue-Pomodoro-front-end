@@ -3,15 +3,30 @@
     <div id="nav">
       <div v-if="this.isTimerRunning === false">
         <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/leaderboard">Leaderboard</router-link></li>
         <li><router-link to="/reward">Reward</router-link></li>
         <li><router-link to="/profile">Profile</router-link></li>
-        <!-- <li><router-link to="/createPet">Create Pet</router-link></li> -->
-        <li style="float:right" class="active"><router-link to="/login">Login</router-link></li>
-        <li style="float:right" class="active"><router-link to="/logout">Logout</router-link></li>
-        <li style="float:right" class="active"><router-link to="/register">Register</router-link></li>
+        <div v-if="!isAuthen()">
+          <li style="float: right" class="active">
+            <router-link to="/login">Login</router-link>
+          </li>
+          <li style="float: right" class="active">
+            <router-link to="/register">Register</router-link>
+          </li>
+        </div>
+        <div v-if="isAuthen()">
+          <li style="float: right" class="active">
+            <router-link to="/logout">Logout</router-link>
+          </li>
+          <div v-if="isAdmin()">
+            <li style="float: right" class="active">
+              <router-link to="/leaderboard">Leaderboard</router-link>
+            </li>
+          </div>
+        </div>
       </div>
-      <div class="focus" v-if="this.isTimerRunning === true">You Are On Focus Mode</div>
+      <div class="focus" v-if="this.isTimerRunning === true">
+        You Are On Focus Mode
+      </div>
     </div>
     <router-view />
   </div>
@@ -31,6 +46,12 @@ export default {
     });
   },
   methods: {
+    isAdmin() {
+      if (AuthUser.getters.user.role.name === "Admin") {
+        return true;
+      }
+      return false;
+    },
     isAuthen() {
       return AuthUser.getters.isAuthen;
     },
@@ -79,27 +100,24 @@ li a:hover:not(.active) {
   width: 100%;
   height: fit-content;
 }
-.route{
-  p{
-    
+.route {
+  p {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 5px;   
+    padding: 5px;
   }
 }
-.menuButton{
+.menuButton {
   width: 280px;
 }
-.login{
+.login {
   margin-top: 360px;
   display: block;
-  
 }
-.logout{
+.logout {
   display: block;
   margin-top: 10px;
-
 }
 </style>

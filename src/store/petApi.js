@@ -111,6 +111,26 @@ export default new Vuex.Store({
             }
         },
 
+        async deleteItem({ commit }, payload) {
+            let url = api_endpoint + '/pets/' + payload.id
+
+            let body = {
+                pet_name: payload.pet_name,
+            }
+            let res = await Axios.put(url, body)
+            if (res.status === 200) {
+                let resData = {
+                    index: payload.index,
+                    response: res.data
+                }
+                commit("edit", resData)
+            } else {
+                console.error(res)
+            }
+        }
+
+        
+
     },
     modules: {}
 })

@@ -75,7 +75,7 @@ img{
     border-radius: 50%;
 }
 .distance-for-profile {
-    margin-top: 50px;
+    margin-top: 60px;
     text-align: center;
 }
 </style>
