@@ -1,8 +1,8 @@
-# Pomodoro Focus Application 🌍☄️🔥
-## project442_midterm_front-end 🐶
+# 🐶🌕🐺 Pomodoro Focus Application 🌍☄️🔥
+## 01418442 Web Technology and Web Services Project 1 🐶
 
 
-## Project setup
+## Project setup 💻
 ```
 npm install 
 ```
@@ -17,7 +17,10 @@ npm run serve
 npm run build
 ```
 
-## How to use
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## How to use 👨‍💻
 ```
 [Pomodoro Focus Application]
 1. เมื่อทำการสมัครสมาชิกแล้ว login เข้ามาเรียบร้อยแล้วหน้าที่ปรากฏจะเป็นหน้า Home
@@ -33,12 +36,9 @@ npm run build
 9. หน้า Reward ของ Admin สามารถแก้ไขของรางวัลได้และลบของรางวัลได้
 ```
 
-## Developer Team
+## Developer Team 👨‍👦‍👦
 ```
 * [Kunkawee Suriyasarapong] [6210451055] 😈
 * [Panyakarn Pantaeng]      [6210450091] 🤖
 * [Prapawarin Kramkeaw]     [6210450610] 👽
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
