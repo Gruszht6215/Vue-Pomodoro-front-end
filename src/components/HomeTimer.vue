@@ -99,6 +99,20 @@ export default {
       profilePoint: 0,
     };
   },
+  beforeMount() {
+    window.addEventListener("beforeunload", this.preventNav);
+    this.$once("hook:beforeDestroy", () => {
+      window.removeEventListener("beforeunload", this.preventNav);
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.isRunning) {
+      if (!window.confirm("Leave without saving?")) {
+        return;
+      }
+    }
+    next();
+  },
   created() {
     this.fetchProfile();
   },
@@ -107,8 +121,20 @@ export default {
       swal("Restricted Area", "Please, login first", "warning");
       this.$router.push("/login");
     }
+    window.onpopstate = (event) => {
+      if (this.isRunning) {
+        this.$router.push("/");
+      }
+    };
+    this.$root.$emit("isTimerRunning", this.isRunning);
   },
   methods: {
+    preventNav(event) {
+      if (!this.isRunning) return;
+      event.preventDefault();
+      // Chrome requires returnValue to be set.
+      event.returnValue = "";
+    },
     isAuthen() {
       return AuthUser.getters.isAuthen;
     },
