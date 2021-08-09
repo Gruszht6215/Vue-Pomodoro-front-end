@@ -23,6 +23,10 @@ export default new Vuex.Store({
         add(state, { payload }) {
             state.data.push(payload)
         },
+        edit(state, res) {
+            state.data[res.index] = res.response
+            // state.data[res.index].pet_name = res.response.pet_name
+        },
     },
     actions: {
         async fetchItem({ commit }) {
@@ -60,19 +64,50 @@ export default new Vuex.Store({
             }
         },
         async editItem({ commit }, payload) {
-            let url = api_endpoint + '/pets' + payload.id
-            let body = {
-                pet_name: payload.pet_name,
-                pet_rarity: payload.pet_rarity,
-                pet_point: payload.pet_point,
-                pet_image: payload.pet_image
-            }
-            let res = await Axios.put(url, body)
-            if (res.status === 200) {
-                commit('edit', payload.index, res.data)
-                console.log("commit('edit')", payload.index, res.data)
+            let url = api_endpoint + '/pets/' + payload.id
+            let upload_url = api_endpoint + '/upload'
+
+            if (payload.pet_image === null) {
+                let body = {
+                    pet_name: payload.pet_name,
+                    pet_rarity: payload.pet_rarity,
+                    pet_point: payload.pet_point,
+                }
+                let res = await Axios.put(url, body)
+                if (res.status === 200) {
+                    let resData = {
+                        index: payload.index,
+                        response: res.data
+                    }
+                    commit("edit", resData)
+                    swal("Update Success!", "", "success")
+                } else {
+                    console.error(res)
+                }
             } else {
-                console.error(res)
+                let res_upload = await Axios.post(upload_url, payload.pet_image)
+                if (res_upload.status === 200) {
+                    const imageId = res_upload.data[0].id;
+                    let body = {
+                        pet_name: payload.pet_name,
+                        pet_rarity: payload.pet_rarity,
+                        pet_point: payload.pet_point,
+                        pet_image: imageId,
+                    }
+                    let res = await Axios.put(url, body)
+                    if (res.status === 200) {
+                        let resData = {
+                            index: payload.index,
+                            response: res.data
+                        }
+                        commit("edit", resData)
+                        swal("Update Success!", "", "success")
+                    } else {
+                        console.error(res)
+                    }
+                } else {
+                    console.error(res)
+                }
             }
         },
 

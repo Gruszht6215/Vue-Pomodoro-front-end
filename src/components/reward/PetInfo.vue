@@ -1,73 +1,95 @@
 <template>
   <div class="row">
-    <div>
-      <button v-if="isAdmin()" class="open-button" @click="openEditForm()">Add new pet</button>
-    </div>
-    <div class="column" id="box" v-for="(pet, index) in pets" v-bind:key="index">
-      <div v-if="index !== editIndex"> 
+    <button v-if="isAdmin()" class="open-button" @click="openAddForm()">
+      Add new pet
+    </button>
+    <h1>{{ profileName }}</h1>
+    <h1>{{ showProfilePoint }}</h1>
+    <div
+      class="column"
+      id="box"
+      v-for="(pet, index) in pets"
+      v-bind:key="index"
+    >
+      <div v-if="index !== editIndex">
         <img :src="getImage(pet.pet_image.url)" />
       </div>
       <!-- <div v-if="index === editIndex"> 
         เปลี่ยนรูปภาพโดยที่รูปเดิมยังอยู่
       </div> -->
-
-      <div v-if="index !== editIndex"> 
-        <h2><i>{{ pet.pet_name }}</i></h2>
+      <div v-if="index !== editIndex">
+        <h2>
+          <i>{{ pet.pet_name }}</i>
+        </h2>
       </div>
-      <div v-if="index === editIndex"> 
-        <label for="pet_name">Name : </label>
-        <input type="text" v-model="form.pet_name" id="input-default"/>
+      <div v-if="index !== editIndex">
+        <p>Rarity : {{ pet.pet_rarity }}<br /></p>
       </div>
-
-      <div v-if="index !== editIndex"> 
-        <p>Rarity : {{ pet.pet_rarity }}</p>
-      </div>
-      <div v-if="index === editIndex"> 
-        <label for="pet_name">Rarity : </label>
-        <select v-model="form.rarity">
-          <option disabled value="">Please select one</option>
-          <option>Legendary</option>
-          <option>Epic</option>
-          <option>Rare</option>
-          <option>Common</option>
-        </select>
-      </div>
-
-      <div v-if="index !== editIndex"> 
+      <div v-if="index !== editIndex">
         <p>Point : {{ pet.pet_point }} points</p>
       </div>
-      <div v-if="index === editIndex"> 
-        <label for="pet_name">Point : </label>
-        <input type="number" v-model="form.pet_point" id="input-default">
+
+      <div v-if="index === editIndex">
+        <form @submit.prevent="onSubmitEdit">
+          <div v-if="index === editIndex">
+            <label for="pet_name">Name : </label>
+            <input type="text" v-model="form.pet_name" />
+          </div>
+
+          <label for="pet_name">Rarity : </label>
+          <select v-model="form.pet_rarity">
+            <option disabled value="">Please select one</option>
+            <option>Legendary</option>
+            <option>Epic</option>
+            <option>Rare</option>
+            <option>Common</option>
+          </select>
+
+          <div v-if="index === editIndex">
+            <label for="pet_name">Point :</label>
+            <input type="number" v-model="form.pet_point" />
+          </div>
+
+          <input type="file" @change="onFileChanged" />
+
+          <div v-if="index === editIndex">
+            <button>Update</button>
+            <button @click="closeForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div v-if="!isAdmin() && index !== editIndex">
+        <div v-if="!isPurchased(pet.id)">
+          <button @click="purchase(pet)">Purchase</button>
+        </div>
+        <div v-if="isPurchased(pet.id)">
+          <h3>purchased</h3>
+        </div>
       </div>
 
       <div v-if="!isAdmin()">
-        <button @click="decreaseUserPoint(pet.id)">Purchase</button>
-        <!--สมมติ points-->
-      </div>
-      <div v-if="isAdmin()">
         <div v-if="index !== editIndex">
           <button @click="openForm(index, pet)">Edit</button>
           <button @click="deleteItem(pet.id-1)">Delete</button>
         </div>
-        <div v-if="index === editIndex">
-          <button @click="editItem()">Update</button>
-          <button @click="closeForm()">Cancel</button>
-        </div>
       </div>
     </div>
-    </div>
+    <!-- <button @click="Testing()">test</button> -->
+  </div>
 </template>
 
 <script>
 import PetApi from "@/store/petApi";
 import AuthUser from "@/store/AuthUser";
+import ProfileApi from "@/store/ProfileApi";
 
 export default {
   data() {
     return {
       pets: [],
       editIndex: -1,
+      selectedFile: null,
       form: {
         id: "",
         pet_name: "",
@@ -75,10 +97,15 @@ export default {
         pet_point: "",
         pet_image: "",
       },
+      profileId: "",
+      profileName: "",
+      profilePoint: 0,
+      profileCollection: [],
     };
   },
   created() {
     this.fetchItem();
+    this.fetchProfile();
   },
   methods: {
     isAuthen() {
@@ -90,17 +117,43 @@ export default {
       }
       return false;
     },
-    Testing() {
-      console.log(AuthUser.getters.user);
+    isPurchased(pet_id) {
+      for (let i = 0; i < this.profileCollection.length; i++) {
+        // console.log(this.profileCollection[i]);
+        if (pet_id == this.profileCollection[i].id) {
+          return true;
+        }
+      }
+      return false;
     },
+    // Testing() {
+    //   this.isPurchased(7);
+    //   console.log(this.profileCollection);
+    // },
     async fetchItem() {
       await PetApi.dispatch("fetchItem");
       this.pets = PetApi.getters.pets;
+    },
+    async fetchProfile() {
+      await ProfileApi.dispatch("fetchItem", AuthUser.getters.user.id);
+      this.profileId = ProfileApi.getters.profile(
+        AuthUser.getters.user.username
+      ).id;
+      this.profilePoint = ProfileApi.getters.profile(
+        AuthUser.getters.user.username
+      ).profile_point;
+      this.profileName = ProfileApi.getters.profile(
+        AuthUser.getters.user.username
+      ).profile_user.username;
+      this.profileCollection = ProfileApi.getters.profile(
+        AuthUser.getters.user.username
+      ).pet_collection;
     },
     openForm(index, pet) {
       //for admin
       this.editIndex = index;
       let cloned = JSON.parse(JSON.stringify(pet));
+      this.form.id = cloned.id;
       this.form.pet_name = cloned.pet_name;
       this.form.pet_rarity = cloned.pet_rarity;
       this.form.pet_point = cloned.pet_point;
@@ -108,6 +161,7 @@ export default {
     closeForm() {
       //for admin
       this.editIndex = -1;
+      this.selectedFile = null;
       this.form = {
         id: "",
         pet_name: "",
@@ -116,81 +170,58 @@ export default {
         pet_image: "",
       };
     },
-    openEditForm() {
+    openAddForm() {
+      // this.router.navigateByUrl("/createPet");
       this.$router.push("/createPet");
     },
-    async deleteItem(id) {
-      this.$delete(this.pets, id)
+    async deleteItem() {},
+
+    onFileChanged(event) {
+      this.selectedFile = event.target.files[0];
     },
-    async editItem() {
-      //for admin
+
+    async onSubmitEdit() {
+      const formData = new FormData();
+      formData.append("files", this.selectedFile);
       let payload = {
         index: this.editIndex,
         id: this.form.id,
         pet_name: this.form.pet_name,
         pet_rarity: this.form.pet_rarity,
         pet_point: this.form.pet_point,
-        //pet_image: this.form.pet_image ยังไม่ได้ split url
+        pet_image: formData,
       };
+      if (this.selectedFile === null) {
+        payload.pet_image = null;
+      }
+      // console.log(payload);
       await PetApi.dispatch("editItem", payload);
+      swal("Update Success!", "", "success");
       this.closeForm();
-      this.fetchItem();
     },
-    async addItem() {
-      //for admin
-      let payload = {
-        index: this.editIndex,
-        id: this.form.id,
-        pet_name: this.form.pet_name,
-        pet_rarity: this.form.pet_rarity,
-        pet_point: this.form.pet_point,
-        //pet_image: this.form.pet_image ยังไม่ได้ split url
-      };
-      let res = await PetApi.dispatch("addItem", payload);
-      if (res.success) {
-        this.closeForm();
-        this.fetchItem();
+
+    async purchase(pet) {
+      if (parseInt(this.profilePoint) <= parseInt(pet.pet_point)) {
+        swal("Sorry", "You do not have enough point.", "warning");
       } else {
-        console.log("Add mai dai");
-        swal("Add Failed", res.message, "error");
+        let totalPoint = parseInt(this.profilePoint) - parseInt(pet.pet_point);
+        let payload = {
+          profile_id: this.profileId,
+          profile_point: totalPoint,
+        };
+        await ProfileApi.dispatch("decreasePoint", payload);
+        this.profilePoint = totalPoint;
+        swal("Purchase Successful", "", "success");
       }
     },
-    // calculateUserPoint(pet_id) {
-    //   this.pets.forEach(function (pet) {
-    //     if (pet_id === pet.id) {
-    //       user_point -= parseInt(pet.pet_point);
-    //     }
-    //   });
-    //   return user_point;
-    // },
-    decreaseUserPoint(pet_id) {
-      //ลด point ของ user
-      // swal({
-      //   title: "Are you sure to buy this pet?",
-      //   text: "If you click, You will receive a lovely pet!",
-      //   icon: "warning",
-      //   buttons: true,
-      //   dangerMode: true,
-      // }).then((willPurchase) => {
-      //   if (willPurchase) {
-      //     // calculateUserPoint(pet_id);
-      //     swal("You received a lovely PET!", {
-      //       icon: "success",
-      //     });
-      //     console.log(pet_id)
-      //     return pet_id
-      //   } else {
-      //     swal("This pet so sad to you.");
-      //   }
-      // });
-      console.log(pet_id)
-      return pet_id;
-    },
-    // addPetToUser() {
-    //   //เพิ่มสัตว์เลี้ยงให้ user
-    // },
+
     getImage(url) {
       return "http://localhost:1337" + url;
+    },
+  },
+  computed: {
+    showProfilePoint() {
+      return this.profilePoint;
     },
   },
 };
