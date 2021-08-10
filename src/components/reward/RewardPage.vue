@@ -30,7 +30,7 @@ export default {
       return AuthUser.getters.isAuthen;
     },
     logout() {
-      console.log(AuthUser.getters.user);
+      // console.log(AuthUser.getters.user);
     },
   },
 };

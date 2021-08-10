@@ -187,7 +187,7 @@ export default {
       this.$router.push("/createPet");
     },
     async deleteItem(index, pet) {
-      console.log(pet);
+      // console.log(pet);
       this.editIndex = index;
       let payload = {
         index: this.editIndex,

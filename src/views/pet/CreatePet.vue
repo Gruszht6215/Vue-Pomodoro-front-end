@@ -4,8 +4,8 @@
     <h1>Add New Pet</h1>
     <br />
     <form @submit.prevent="onSubmit">
-      <img :src="previewImage" class="uploading-image"/>
-      <input type="file" @change="onFileChanged"/>
+      <img :src="previewImage" class="uploading-image" />
+      <input type="file" @change="onFileChanged" />
       <div>
         <label for="name">Pet Name : </label>
         <input
@@ -88,7 +88,7 @@ export default {
       reader.readAsDataURL(this.selectedFile);
       reader.onload = (e) => {
         this.previewImage = e.target.result;
-        console.log(this.previewImage);
+        // console.log(this.previewImage);
       };
     },
     onSubmit() {
@@ -104,6 +104,7 @@ export default {
       };
       PetApiStore.dispatch("addItem", payload);
       this.clearForm();
+      this.$router.push("/createPet");
     },
     clearForm() {
       this.selectedFile = null;
