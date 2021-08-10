@@ -5,7 +5,7 @@ import swal from 'sweetalert'
 
 //import PetApiJson from '@/store/PetApiJson.json'
 
-let api_endpoint = "http://localhost:1337"
+let api_endpoint = "http://localhost:3000"
 
 Vue.use(Vuex)
 
