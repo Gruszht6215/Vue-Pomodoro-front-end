@@ -8,6 +8,7 @@
       To
       <date-picker v-model="mydate2" placeholder="End date"></date-picker>
       <button type="button" @click="save">Filter</button>
+      <!-- <button type="button" @click="reset">Reset</button> -->
     </div>
     <div class="receive">
       <h3>Receive Leader Board</h3>
@@ -25,11 +26,11 @@
               v-if="
                 (lead.active_date.substring(0, 4) * 31536000 +
                   lead.active_date.substring(5, 7) * 2629800 +
-                  lead.active_date.substring(8, 10) * 86400 >
+                  lead.active_date.substring(8, 10) * 86400 >=
                   startDate &&
                   lead.active_date.substring(0, 4) * 31536000 +
                     lead.active_date.substring(5, 7) * 2629800 +
-                    lead.active_date.substring(8, 10) * 86400 <
+                    lead.active_date.substring(8, 10) * 86400 <=
                     endDate &&
                   lead.point_type === 'Receive') ||
                 (startDate == 0 && lead.point_type === 'Receive')
@@ -41,11 +42,11 @@
               v-if="
                 (lead.active_date.substring(0, 4) * 31536000 +
                   lead.active_date.substring(5, 7) * 2629800 +
-                  lead.active_date.substring(8, 10) * 86400 >
+                  lead.active_date.substring(8, 10) * 86400 >=
                   startDate &&
                   lead.active_date.substring(0, 4) * 31536000 +
                     lead.active_date.substring(5, 7) * 2629800 +
-                    lead.active_date.substring(8, 10) * 86400 <
+                    lead.active_date.substring(8, 10) * 86400 <=
                     endDate &&
                   lead.point_type === 'Receive') ||
                 (startDate == 0 && lead.point_type === 'Receive')
@@ -57,11 +58,11 @@
               v-if="
                 (lead.active_date.substring(0, 4) * 31536000 +
                   lead.active_date.substring(5, 7) * 2629800 +
-                  lead.active_date.substring(8, 10) * 86400 >
+                  lead.active_date.substring(8, 10) * 86400 >=
                   startDate &&
                   lead.active_date.substring(0, 4) * 31536000 +
                     lead.active_date.substring(5, 7) * 2629800 +
-                    lead.active_date.substring(8, 10) * 86400 <
+                    lead.active_date.substring(8, 10) * 86400 <=
                     endDate &&
                   lead.point_type === 'Receive') ||
                 (startDate == 0 && lead.point_type === 'Receive')
@@ -89,11 +90,11 @@
               v-if="
                 (lead.active_date.substring(0, 4) * 31536000 +
                   lead.active_date.substring(5, 7) * 2629800 +
-                  lead.active_date.substring(8, 10) * 86400 >
+                  lead.active_date.substring(8, 10) * 86400 >=
                   startDate &&
                   lead.active_date.substring(0, 4) * 31536000 +
                     lead.active_date.substring(5, 7) * 2629800 +
-                    lead.active_date.substring(8, 10) * 86400 <
+                    lead.active_date.substring(8, 10) * 86400 <=
                     endDate &&
                   lead.point_type === 'Spend') ||
                 (startDate == 0 && lead.point_type === 'Spend')
@@ -105,11 +106,11 @@
               v-if="
                 (lead.active_date.substring(0, 4) * 31536000 +
                   lead.active_date.substring(5, 7) * 2629800 +
-                  lead.active_date.substring(8, 10) * 86400 >
+                  lead.active_date.substring(8, 10) * 86400 >=
                   startDate &&
                   lead.active_date.substring(0, 4) * 31536000 +
                     lead.active_date.substring(5, 7) * 2629800 +
-                    lead.active_date.substring(8, 10) * 86400 <
+                    lead.active_date.substring(8, 10) * 86400 <=
                     endDate &&
                   lead.point_type === 'Spend') ||
                 (startDate == 0 && lead.point_type === 'Spend')
@@ -121,11 +122,11 @@
               v-if="
                 (lead.active_date.substring(0, 4) * 31536000 +
                   lead.active_date.substring(5, 7) * 2629800 +
-                  lead.active_date.substring(8, 10) * 86400 >
+                  lead.active_date.substring(8, 10) * 86400 >=
                   startDate &&
                   lead.active_date.substring(0, 4) * 31536000 +
                     lead.active_date.substring(5, 7) * 2629800 +
-                    lead.active_date.substring(8, 10) * 86400 <
+                    lead.active_date.substring(8, 10) * 86400 <=
                     endDate &&
                   lead.point_type === 'Spend') ||
                 (startDate == 0 && lead.point_type === 'Spend')
@@ -231,6 +232,10 @@ export default {
         (this.mydate2.getMonth() + 1) * 2629800 +
         this.mydate2.getDate() * 86400;
     },
+    reset(){
+      // this.fetchLeader();
+      this.$route.push('/leaderboard')
+    }
   },
 };
 </script>
