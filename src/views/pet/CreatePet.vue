@@ -88,7 +88,7 @@ export default {
       reader.readAsDataURL(this.selectedFile);
       reader.onload = (e) => {
         this.previewImage = e.target.result;
-        console.log(this.previewImage);
+        // console.log(this.previewImage);
       };
     },
     onSubmit() {

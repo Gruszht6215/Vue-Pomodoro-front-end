@@ -34,8 +34,8 @@ export default new Vuex.Store({
         },
         async addHistory({ commit }, { point, pointType }) {
             try {
-                console.log("point", point)
-                console.log("pointType", pointType)
+                // console.log("point", point)
+                // console.log("pointType", pointType)
                 let url_leaderboard = api_endpoint + "/leaderboards"
 
                 var d = new Date();
