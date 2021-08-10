@@ -206,7 +206,7 @@ export default {
       this.$root.$emit("isTimerRunning", this.isRunning);
     },
     pointCal(h, m, s) {
-      // this.pointReward = 1000;
+      // this.pointReward = 11;
       this.pointReward =
         Math.floor(s * 0.1) + Math.floor(m * 0.8) + Math.floor(h * 66);
     },

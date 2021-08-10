@@ -200,7 +200,7 @@ export default {
     async fetchLeader() {
       await LeaderBoardApiStore.dispatch("fetchLeader");
       this.leaders = LeaderBoardApiStore.getters.leaders;
-      // console.log(this.mydate);
+      console.log(this.mydate);
     },
     save() {
       this.result1.month = this.mydate1.getMonth() + 1;

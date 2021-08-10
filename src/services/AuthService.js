@@ -96,7 +96,6 @@ export default {
         }
     },
     async receivePoint(profile_id, point) {
-        // wrong place -*-
         try {
             let url_profile = api_endpoint + "/profiles/" + profile_id
             let url_leaderboard = api_endpoint + "/leaderboards"
