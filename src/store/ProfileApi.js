@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from "axios"
 
-let api_endpoint = "http://localhost:3000"
+let api_endpoint = "http://localhost:1337"
 
 Vue.use(Vuex)
 

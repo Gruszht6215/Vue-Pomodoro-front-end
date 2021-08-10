@@ -257,7 +257,7 @@ export default {
     },
 
     getImage(url) {
-      return "http://localhost:3000" + url;
+      return "http://localhost:1337" + url;
     },
   },
   computed: {

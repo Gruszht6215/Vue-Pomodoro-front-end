@@ -8,7 +8,7 @@ const user = auth ? auth.user : ""
 const jwt = auth ? auth.jwt : ""
 
 // const api_endpoint = process.env.VUE_APP_PET_ENDPOINT || "http://localhost:1337"
-const api_endpoint = "http://localhost:3000"
+const api_endpoint = "http://localhost:1337"
 
 
 //export default = when u wanna use it u have to 'import'
